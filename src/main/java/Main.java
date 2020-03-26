@@ -61,8 +61,8 @@ public class Main {
         if (debug) {
             Boolean fast = Boolean.FALSE;
             int chunkX=0;
-            int chunkZ=-3;
-            long seed=10;
+            int chunkZ=0;
+            long seed=100;
 
             BiomesBase[] biomesForGeneration= null;
             BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);

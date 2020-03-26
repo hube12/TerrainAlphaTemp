@@ -75,76 +75,9 @@ public class Random {
     }
 
     protected int next(int bits) {
-        long oldseed, nextseed;
-        oldseed = this.seed;
-        nextseed = (oldseed * multiplier + addend) & mask;
-        return (int) (nextseed >>> (48 - bits));
+        this.seed = (this.seed  * multiplier + addend) & mask;
+        return (int) (this.seed  >>> (48 - bits));
     }
-
-
-    public void nextBytes(byte[] bytes) {
-        for (int i = 0, len = bytes.length; i < len; )
-            for (int rnd = nextInt(),
-                 n = Math.min(len - i, Integer.SIZE / Byte.SIZE);
-                 n-- > 0; rnd >>= Byte.SIZE)
-                bytes[i++] = (byte) rnd;
-    }
-
-
-    final long internalNextLong(long origin, long bound) {
-        long r = nextLong();
-        if (origin < bound) {
-            long n = bound - origin, m = n - 1;
-            if ((n & m) == 0L)  // power of two
-                r = (r & m) + origin;
-            else if (n > 0L) {  // reject over-represented candidates
-                for (long u = r >>> 1;            // ensure nonnegative
-                     u + m - (r = u % n) < 0L;    // rejection check
-                     u = nextLong() >>> 1) // retry
-                    ;
-                r += origin;
-            } else {              // range not representable as long
-                while (r < origin || r >= bound)
-                    r = nextLong();
-            }
-        }
-        return r;
-    }
-
-
-    final int internalNextInt(int origin, int bound) {
-        if (origin < bound) {
-            int n = bound - origin;
-            if (n > 0) {
-                return nextInt(n) + origin;
-            } else {  // range not representable as int
-                int r;
-                do {
-                    r = nextInt();
-                } while (r < origin || r >= bound);
-                return r;
-            }
-        } else {
-            return nextInt();
-        }
-    }
-
-
-    final double internalNextDouble(double origin, double bound) {
-        double r = nextDouble();
-        if (origin < bound) {
-            r = r * (bound - origin) + origin;
-            if (r >= bound) // correct for rounding
-                r = Double.longBitsToDouble(Double.doubleToLongBits(bound) - 1);
-        }
-        return r;
-    }
-
-
-    public int nextInt() {
-        return next(32);
-    }
-
 
     public int nextInt(int bound) {
         if (bound <= 0)
