@@ -107,7 +107,7 @@ public class Main implements Runnable {
 
 
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 1; i++) {
             Thread thread = new Thread(new Main(files.get(i).getKey(), files.get(i).getValue()));
             thread.start();
         }
@@ -154,7 +154,10 @@ public class Main implements Runnable {
             byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, Boolean.FALSE, biomeGenerationInstance, biomesForGeneration);
             boolean flag = true;
             for (int z = 0; z < mapWat.length; z++) {
-                if (chunk[ind * 16 + z] != mapWat[z]) {
+                int pos = 128* ind * 16 + 128*z;
+                int y;
+                for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
+                if (y != mapWat[z]) {
                     flag = false;
                     break;
                 }
