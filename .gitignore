@@ -1,0 +1,6 @@
+.idea
+*.zip
+worldSeed
+out
+src/main/resources/*.txt
+!src/main/resources/test.txt
