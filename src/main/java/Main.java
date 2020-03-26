@@ -3,7 +3,6 @@
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -69,8 +68,9 @@ public class Main {
             BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
             biomesForGeneration=biomeGenerationInstance.loadBiomes(biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
             for (BiomesBase biomesBase:biomesForGeneration){
-                System.out.println(biomesBase.field_6504_m);
+                System.out.print(biomesBase.name+" ");
             }
+            System.out.println();
             GenerateChunk generateChunk = new GenerateChunk(seed);
             byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, fast,biomeGenerationInstance,biomesForGeneration);
             if (fast) {

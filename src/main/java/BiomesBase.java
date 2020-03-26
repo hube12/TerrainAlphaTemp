@@ -1,7 +1,3 @@
-
-
-import java.awt.Color;
-
 public class BiomesBase {
 
     public BiomesBase() {
@@ -15,9 +11,7 @@ public class BiomesBase {
             for (int j = 0; j < 64; j++) {
                 biomeLookupTables[i + j * 64] = getBiomeFor((float) i / 63F, (float) j / 63F);
             }
-
         }
-
         Desert.grassOrEquivalentSand = Desert.dirtOrEquivalentSand = (byte) GenerateChunk.Blocks.SAND.getValue();
         IceDesert.grassOrEquivalentSand = IceDesert.dirtOrEquivalentSand = (byte)GenerateChunk.Blocks.SAND.getValue();
     }
@@ -27,7 +21,7 @@ public class BiomesBase {
     }
 
     protected BiomesBase setName(String s) {
-        field_6504_m = s;
+        name = s;
         return this;
     }
 
@@ -37,7 +31,7 @@ public class BiomesBase {
     }
 
     protected BiomesBase setColor(int i) {
-        field_6503_n = i;
+        color = i;
         return this;
     }
 
@@ -85,17 +79,6 @@ public class BiomesBase {
         }
     }
 
-    public int func_4126_a(float f) {
-        f /= 3F;
-        if (f < -1F) {
-            f = -1F;
-        }
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        return Color.getHSBColor(0.6222222F - f * 0.05F, 0.5F + f * 0.1F, 1.0F).getRGB();
-    }
-
 
     public static final BiomesBase Rainforest = (new BiomesBase()).setColor(0x8fa36).setName("Rainforest").setGrassColor(0x1ff458);
     public static final BiomesBase Swampland = (new BiomesBase()).setColor(0x7f9b2).setName("Swampland").setGrassColor(0x8baf48);
@@ -109,8 +92,8 @@ public class BiomesBase {
     public static final BiomesBase IceDesert = (new BiomesBase()).setColor(0xffed93).setName("Ice Desert").func_4122_b().setGrassColor(0xc4d339);
     public static final BiomesBase Tundra = (new BiomesBase()).setColor(0x57ebf9).setName("Tundra").func_4122_b().setGrassColor(0xc4d339);
     public static final BiomesBase Nether = (new BiomesBase()).setColor(0xff0000).setName("Hell");
-    public String field_6504_m;
-    public int field_6503_n;
+    public String name;
+    public int color;
     public byte grassOrEquivalentSand;
     public byte dirtOrEquivalentSand;
     public int grassColor;
