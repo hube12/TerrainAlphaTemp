@@ -157,7 +157,7 @@ public class Main implements Runnable {
                 int pos = 128* ind * 16 + 128*z;
                 int y;
                 for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
-                if ((y+2) != mapWat[z]) {
+                if ((y+1) != mapWat[z] && (y+2) != mapWat[z]) {
                     flag = false;
                     break;
                 }
