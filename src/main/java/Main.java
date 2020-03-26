@@ -107,11 +107,11 @@ public class Main implements Runnable {
 
 
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 12; i++) {
             Thread thread = new Thread(new Main(files.get(i).getKey(), files.get(i).getValue()));
             thread.start();
         }
-        if (!debug) {
+        if (debug) {
             new Main("seeds14.txt", 14).run();
         }
     }
@@ -157,7 +157,7 @@ public class Main implements Runnable {
                 int pos = 128* ind * 16 + 128*z;
                 int y;
                 for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
-                if (y != mapWat[z]) {
+                if ((y+2) != mapWat[z]) {
                     flag = false;
                     break;
                 }
