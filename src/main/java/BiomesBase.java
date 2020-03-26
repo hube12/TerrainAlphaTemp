@@ -7,7 +7,7 @@ public class BiomesBase {
     public BiomesBase() {
         grassOrEquivalentSand = (byte) GenerateChunk.Blocks.GRASS.getValue();
         dirtOrEquivalentSand = (byte) GenerateChunk.Blocks.DIRT.getValue();
-        defaultColor = 0x4ee031;
+        grassColor = 0x4ee031;
     }
 
     public static void func_4120_a() {
@@ -26,17 +26,17 @@ public class BiomesBase {
         return this;
     }
 
-    protected BiomesBase func_4125_a(String s) {
+    protected BiomesBase setName(String s) {
         field_6504_m = s;
         return this;
     }
 
-    protected BiomesBase func_4124_a(int i) {
-        defaultColor = i;
+    protected BiomesBase setGrassColor(int i) {
+        grassColor = i;
         return this;
     }
 
-    protected BiomesBase func_4123_b(int i) {
+    protected BiomesBase setColor(int i) {
         field_6503_n = i;
         return this;
     }
@@ -97,23 +97,23 @@ public class BiomesBase {
     }
 
 
-    public static final BiomesBase Rainforest = (new BiomesBase()).func_4123_b(0x8fa36).func_4125_a("Rainforest").func_4124_a(0x1ff458);
-    public static final BiomesBase Swampland = (new BiomesBase()).func_4123_b(0x7f9b2).func_4125_a("Swampland").func_4124_a(0x8baf48);
-    public static final BiomesBase Seasonal_forest = (new BiomesBase()).func_4123_b(0x9be023).func_4125_a("Seasonal Forest");
-    public static final BiomesBase Forest = (new BiomesBase()).func_4123_b(0x56621).func_4125_a("Forest").func_4124_a(0x4eba31);
-    public static final BiomesBase Savanna = (new BiomesBase()).func_4123_b(0xd9e023).func_4125_a("Savanna");
-    public static final BiomesBase Shrubland = (new BiomesBase()).func_4123_b(0xa1ad20).func_4125_a("Shrubland");
-    public static final BiomesBase Taiga = (new BiomesBase()).func_4123_b(0x2eb153).func_4125_a("Taiga").func_4122_b().func_4124_a(0x7bb731);
-    public static final BiomesBase Desert = (new BiomesBase()).func_4123_b(0xfa9418).func_4125_a("Desert");
-    public static final BiomesBase Plains = (new BiomesBase()).func_4123_b(0xffd910).func_4125_a("Plains");
-    public static final BiomesBase IceDesert = (new BiomesBase()).func_4123_b(0xffed93).func_4125_a("Ice Desert").func_4122_b().func_4124_a(0xc4d339);
-    public static final BiomesBase Tundra = (new BiomesBase()).func_4123_b(0x57ebf9).func_4125_a("Tundra").func_4122_b().func_4124_a(0xc4d339);
-    public static final BiomesBase Nether = (new BiomesBase()).func_4123_b(0xff0000).func_4125_a("Hell");
+    public static final BiomesBase Rainforest = (new BiomesBase()).setColor(0x8fa36).setName("Rainforest").setGrassColor(0x1ff458);
+    public static final BiomesBase Swampland = (new BiomesBase()).setColor(0x7f9b2).setName("Swampland").setGrassColor(0x8baf48);
+    public static final BiomesBase Seasonal_forest = (new BiomesBase()).setColor(0x9be023).setName("Seasonal Forest");
+    public static final BiomesBase Forest = (new BiomesBase()).setColor(0x56621).setName("Forest").setGrassColor(0x4eba31);
+    public static final BiomesBase Savanna = (new BiomesBase()).setColor(0xd9e023).setName("Savanna");
+    public static final BiomesBase Shrubland = (new BiomesBase()).setColor(0xa1ad20).setName("Shrubland");
+    public static final BiomesBase Taiga = (new BiomesBase()).setColor(0x2eb153).setName("Taiga").func_4122_b().setGrassColor(0x7bb731);
+    public static final BiomesBase Desert = (new BiomesBase()).setColor(0xfa9418).setName("Desert");
+    public static final BiomesBase Plains = (new BiomesBase()).setColor(0xffd910).setName("Plains");
+    public static final BiomesBase IceDesert = (new BiomesBase()).setColor(0xffed93).setName("Ice Desert").func_4122_b().setGrassColor(0xc4d339);
+    public static final BiomesBase Tundra = (new BiomesBase()).setColor(0x57ebf9).setName("Tundra").func_4122_b().setGrassColor(0xc4d339);
+    public static final BiomesBase Nether = (new BiomesBase()).setColor(0xff0000).setName("Hell");
     public String field_6504_m;
     public int field_6503_n;
     public byte grassOrEquivalentSand;
     public byte dirtOrEquivalentSand;
-    public int defaultColor;
+    public int grassColor;
     private static BiomesBase[] biomeLookupTables = new BiomesBase[4096];
 
     static {

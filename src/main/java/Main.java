@@ -64,11 +64,14 @@ public class Main {
             int chunkX=0;
             int chunkZ=-3;
             long seed=10;
-            BiomesBase[] biomesForGeneration= new BiomesBase[256];
-            BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
-            biomeGenerationInstance.loadBiomes(biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
-            GenerateChunk generateChunk = new GenerateChunk(seed);
 
+            BiomesBase[] biomesForGeneration= null;
+            BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
+            biomesForGeneration=biomeGenerationInstance.loadBiomes(biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+            for (BiomesBase biomesBase:biomesForGeneration){
+                System.out.println(biomesBase.field_6504_m);
+            }
+            GenerateChunk generateChunk = new GenerateChunk(seed);
             byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, fast,biomeGenerationInstance,biomesForGeneration);
             if (fast) {
                 for (int x = 0; x < 16; x++) {

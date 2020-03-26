@@ -3,6 +3,7 @@
 
 public class GenerateChunk {
     private Random worldRandom;
+    private BiomesBase[] biomesForGeneration;
     BiomeGeneration biomeGenerationInstance;
     double[] mainLimitPerlinNoise;
     double[] minLimitPerlinNoise;
@@ -46,7 +47,7 @@ public class GenerateChunk {
     public NoiseGeneratorOctaves field_920_c;
 
     public GenerateChunk(long worldSeed) {
-        //this.biomeGenerationInstance = new BiomeGeneration(worldSeed);
+        this.biomeGenerationInstance = new BiomeGeneration(worldSeed);
         worldRandom = new Random(worldSeed);
         minLimit = new NoiseGeneratorOctaves(worldRandom, 16);
         maxLimit = new NoiseGeneratorOctaves(worldRandom, 16);
@@ -61,10 +62,10 @@ public class GenerateChunk {
     public byte[] provideChunk(int chunkX, int chunkZ, Boolean fast, BiomeGeneration biomeGenerationInstance,BiomesBase[] biomesForGeneration) {
         worldRandom.setSeed((long) chunkX * 0x4f9939f508L + (long) chunkZ * 0x1ef1565bd5L);
         byte[] chunkCache = new byte[32768];
-        this.biomeGenerationInstance=biomeGenerationInstance;
+        this.biomesForGeneration=this.biomeGenerationInstance.loadBiomes(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
         double[] temperatures = biomeGenerationInstance.temperature;
         byte[] heights = generateTerrain(chunkX, chunkZ, chunkCache, temperatures);
-        replaceBlockForBiomes(chunkX, chunkZ, chunkCache, biomesForGeneration);
+        replaceBlockForBiomes(chunkX, chunkZ, chunkCache, this.biomesForGeneration);
         return fast ? heights : chunkCache;
     }
 

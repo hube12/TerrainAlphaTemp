@@ -6,10 +6,10 @@ import java.util.Arrays;
 public class NoiseGeneratorOctaves extends NoiseGenerator {
 
     public NoiseGeneratorOctaves(Random random, int i) {
-        field_1191_b = i;
-        field_1192_a = new NoiseGeneratorPerlin[i];
+        octaves = i;
+        noiseArray = new NoiseGeneratorPerlin[i];
         for (int j = 0; j < i; j++) {
-            field_1192_a[j] = new NoiseGeneratorPerlin(random);
+            noiseArray[j] = new NoiseGeneratorPerlin(random);
         }
 
     }
@@ -24,8 +24,8 @@ public class NoiseGeneratorOctaves extends NoiseGenerator {
 
         }
         double d6 = 1.0D;
-        for (int i1 = 0; i1 < field_1191_b; i1++) {
-            field_1192_a[i1].generatePermutations(ad, d, d1, d2, i, j, k, d3 * d6, d4 * d6, d5 * d6, d6);
+        for (int i1 = 0; i1 < octaves; i1++) {
+            noiseArray[i1].generatePermutations(ad, d, d1, d2, i, j, k, d3 * d6, d4 * d6, d5 * d6, d6);
             d6 /= 2D;
         }
 
@@ -37,6 +37,6 @@ public class NoiseGeneratorOctaves extends NoiseGenerator {
         return generateNoise(ad, i, 10D, j, k, 1, l, d, 1.0D, d1);
     }
 
-    private NoiseGeneratorPerlin[] field_1192_a;
-    private int field_1191_b;
+    private NoiseGeneratorPerlin[] noiseArray;
+    private int octaves;
 }

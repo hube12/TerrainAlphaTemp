@@ -36,7 +36,7 @@ public class SimplifiedNoiseOctaves extends NoiseGenerator
         double d7 = 1.0D;
         for(int l = 0; l < field_4233_b; l++)
         {
-            field_4234_a[l].func_4157_a(ad, d, d1, i, j, d2 * d7, d3 * d7, 0.55000000000000004D / d6);
+            field_4234_a[l].noise(ad, d, d1, i, j, d2 * d7, d3 * d7, 0.55000000000000004D / d6);
             d7 *= d4;
             d6 *= d5;
         }
