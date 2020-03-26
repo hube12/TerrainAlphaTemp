@@ -3,9 +3,6 @@
 
 public class SimplifiedNoise {
 
-    public SimplifiedNoise() {
-        this(new Random());
-    }
 
     public SimplifiedNoise(Random random) {
         p = new int[512];

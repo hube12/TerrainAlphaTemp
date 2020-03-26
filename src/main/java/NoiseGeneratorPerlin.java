@@ -3,9 +3,6 @@
 
 public class NoiseGeneratorPerlin extends NoiseGenerator {
 
-    public NoiseGeneratorPerlin() {
-        this(new Random());
-    }
 
     public NoiseGeneratorPerlin(Random random) {
         permutations = new int[512];
