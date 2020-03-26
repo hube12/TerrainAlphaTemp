@@ -108,7 +108,7 @@ public class Main implements Runnable {
 
 
         for (int i = 0; i < 12; i++) {
-            Thread thread = new Thread(new Main(files.get(i).getKey(), files.get(i).getValue()));
+            Thread thread = new Thread(new Main(files.get(i).getKey(), files.get(i).getValue()-1));
             thread.start();
         }
         if (debug) {
@@ -117,7 +117,7 @@ public class Main implements Runnable {
     }
 
     public void run() {
-        int[] mapWat = {78, 77, 76, 76, 77, 78, 77, 75, 73};
+        int[] mapWat = {77,78,77,75}; // from z 12 to z15 in chunk
         List<Long> worldSeeds = null;
         long id=Thread.currentThread().getId();
         try {
@@ -154,7 +154,7 @@ public class Main implements Runnable {
             byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, Boolean.FALSE, biomeGenerationInstance, biomesForGeneration);
             boolean flag = true;
             for (int z = 0; z < mapWat.length; z++) {
-                int pos = 128* ind * 16 + 128*z;
+                int pos = 128* ind * 16 + 128*(z+12);
                 int y;
                 for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
                 if ((y+1) != mapWat[z]) {
