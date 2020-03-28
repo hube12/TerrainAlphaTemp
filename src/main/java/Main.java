@@ -23,8 +23,8 @@ public class Main implements Runnable {
 
         ArrayList<List<Object>> files = new ArrayList<>();
         files.add(Arrays.asList("blob_seeds0.txt",0));
-        files.add(Arrays.asList("blob_seeds100.txt",100));
-        files.add(Arrays.asList("blob_seeds110.txt",110));
+        //files.add(Arrays.asList("blob_seeds100.txt",100));
+        //files.add(Arrays.asList("blob_seeds110.txt",110));
         files.add(Arrays.asList("blob_seeds112.txt",112));
         files.add(Arrays.asList("blob_seeds114.txt",114));
         files.add(Arrays.asList("blob_seeds115.txt",115));
@@ -109,7 +109,7 @@ public class Main implements Runnable {
             thread.start();
         }
         if (debug) {
-            new Main("seeds14.txt", 14).run();
+            new Main("blob_seeds0.txt", -1).run();
         }
     }
 
@@ -121,7 +121,7 @@ public class Main implements Runnable {
         long id=Thread.currentThread().getId();
         try {
             URI path = Objects.requireNonNull(Main.class.getClassLoader().getResource("worldSeed/"+name)).toURI();
-            System.out.println(path + " "+ id);
+            System.out.println(path + " "+ id+" "+index);
             worldSeeds = Files.lines(Paths.get(path)).map(Long::valueOf).collect(Collectors.toList());
             System.out.println(worldSeeds.size()+ " "+id );
         } catch (Exception e) {
@@ -129,14 +129,15 @@ public class Main implements Runnable {
         }
 
         long time = System.nanoTime();
-        int chunkX = index >> 4;
+        int chunkX = ((index+16) >> 4)-1;
         int chunkZ = -3;
         long cur = 0;
         long tot = worldSeeds.size();
         BiomesBase[] biomesForGeneration = new BiomesBase[256];
         BiomesBase[] validsBiomes = {BiomesBase.Forest, BiomesBase.Seasonal_forest, BiomesBase.Plains, BiomesBase.Shrubland};
-        int ind = index % 16;
+        int ind = (index % 16 +16)%16;
         for (long seed : worldSeeds) {
+            cur++;
             BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
             biomeGenerationInstance.loadBiomes(biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
             boolean skipIt = false;
@@ -164,7 +165,6 @@ public class Main implements Runnable {
             if (flag) {
                 System.out.println(seed + " at x:"+index+" z:-30");
             }
-            cur++;
             if ((cur % 100000) == 0) {
                 System.out.printf("Time %f at %d %f%% on %d\n",(System.nanoTime() - time) / 1e9, cur, (double) cur / tot * 100,id);
             }
