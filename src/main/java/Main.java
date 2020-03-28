@@ -50,58 +50,64 @@ public class Main implements Runnable {
 
         //GCP
 
-        files.add(Arrays.asList("seeds15000",150));
-        files.add(Arrays.asList("seeds15001",150));
-        files.add(Arrays.asList("seeds15002",150));
-        files.add(Arrays.asList("seeds15003",150));
-        files.add(Arrays.asList("seeds15004",150));
-        files.add(Arrays.asList("seeds15005",150));
-        files.add(Arrays.asList("seeds15006",150));
-        files.add(Arrays.asList("seeds15007",150));
-        files.add(Arrays.asList("seeds15008",150));
-        files.add(Arrays.asList("seeds15009",150));
-        files.add(Arrays.asList("seeds15010",150));
-        files.add(Arrays.asList("seeds15011",150));
-        files.add(Arrays.asList("seeds15012",150));
-        files.add(Arrays.asList("seeds15013",150));
-        files.add(Arrays.asList("seeds15014",150));
-        files.add(Arrays.asList("seeds15015",150));
-        files.add(Arrays.asList("seeds15016",150));
-        files.add(Arrays.asList("seeds15017",150));
-        files.add(Arrays.asList("seeds15018",150));
-        files.add(Arrays.asList("seeds15019",150));
-        files.add(Arrays.asList("seeds15020",150));
-        files.add(Arrays.asList("seeds15021",150));
-        files.add(Arrays.asList("seeds15022",150));
-        files.add(Arrays.asList("seeds15023",150));
-        files.add(Arrays.asList("seeds15024",150));
-        files.add(Arrays.asList("seeds15025",150));
-        files.add(Arrays.asList("seeds15026",150));
-        files.add(Arrays.asList("seeds15027",150));
-        files.add(Arrays.asList("seeds15028",150));
-        files.add(Arrays.asList("seeds15029",150));
-        files.add(Arrays.asList("seeds15030",150));
-        files.add(Arrays.asList("seeds15031",150));
-        files.add(Arrays.asList("seeds15032",150));
-        files.add(Arrays.asList("seeds15033",150));
-        files.add(Arrays.asList("seeds15034",150));
-        files.add(Arrays.asList("seeds15035",150));
-        files.add(Arrays.asList("seeds15036",150));
-        files.add(Arrays.asList("seeds15037",150));
-        files.add(Arrays.asList("seeds15038",150));
-        files.add(Arrays.asList("seeds15039",150));
-        files.add(Arrays.asList("seeds15040",150));
-        files.add(Arrays.asList("seeds15041",150));
-        files.add(Arrays.asList("seeds15042",150));
-        files.add(Arrays.asList("seeds9900",99));
-        files.add(Arrays.asList("seeds8700",87));
+        files.add(Arrays.asList("seeds10200",102));
+        files.add(Arrays.asList("seeds10201",102));
+        files.add(Arrays.asList("seeds10202",102));
+        files.add(Arrays.asList("seeds10203",102));
+        files.add(Arrays.asList("seeds10204",102));
+        files.add(Arrays.asList("seeds10205",102));
+        files.add(Arrays.asList("seeds10206",102));
+        files.add(Arrays.asList("seeds10207",102));
+        files.add(Arrays.asList("seeds10208",102));
+        files.add(Arrays.asList("seeds10209",102));
+        files.add(Arrays.asList("seeds10210",102));
+        files.add(Arrays.asList("seeds10211",102));
+        files.add(Arrays.asList("seeds10212",102));
+        files.add(Arrays.asList("seeds10213",102));
+        files.add(Arrays.asList("seeds10214",102));
+        files.add(Arrays.asList("seeds10215",102));
+        files.add(Arrays.asList("seeds10216",102));
+        files.add(Arrays.asList("seeds10217",102));
+        files.add(Arrays.asList("seeds10218",102));
+        files.add(Arrays.asList("seeds10219",102));
+        files.add(Arrays.asList("seeds10220",102));
+        files.add(Arrays.asList("seeds10221",102));
+        files.add(Arrays.asList("seeds10222",102));
+        files.add(Arrays.asList("seeds10223",102));
+        files.add(Arrays.asList("seeds10224",102));
+        files.add(Arrays.asList("seeds10225",102));
+        files.add(Arrays.asList("seeds10226",102));
+        files.add(Arrays.asList("seeds10227",102));
+        files.add(Arrays.asList("seeds10228",102));
+        files.add(Arrays.asList("seeds10229",102));
+        files.add(Arrays.asList("seeds10230",102));
+        files.add(Arrays.asList("seeds10231",102));
+        files.add(Arrays.asList("seeds10232",102));
+        files.add(Arrays.asList("seeds10233",102));
+        files.add(Arrays.asList("seeds10234",102));
+        files.add(Arrays.asList("seeds10235",102));
+        files.add(Arrays.asList("seeds10236",102));
+        files.add(Arrays.asList("seeds10237",102));
+        files.add(Arrays.asList("seeds10238",102));
+        files.add(Arrays.asList("seeds10239",102));
+        files.add(Arrays.asList("seeds10240",102));
+        files.add(Arrays.asList("seeds10241",102));
+        files.add(Arrays.asList("seeds10242",102));
+        files.add(Arrays.asList("seeds10243",102));
+        files.add(Arrays.asList("seeds10244",102));
+        files.add(Arrays.asList("seeds10245",102));
+        files.add(Arrays.asList("seeds10246",102));
+        files.add(Arrays.asList("seeds10247",102));
+        files.add(Arrays.asList("seeds10248",102));
+        files.add(Arrays.asList("seeds10249",102));
+        files.add(Arrays.asList("seeds10250",102));
 
         //files.add(Arrays.asList("seeds87.txt",87));
         //files.add(Arrays.asList("seeds99.txt",99));
 
 
 
-        for (int i = 0; i < 45; i++) {
+        for (int i = 0; i < 51; i++) {
             Thread thread = new Thread(new Main((String)files.get(i).get(0), ((int)files.get(i).get(1))-1));
             thread.start();
         }
