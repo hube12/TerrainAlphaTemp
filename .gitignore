@@ -1,6 +1,8 @@
-.idea
+.idea/
 *.zip
-worldSeed
-out
+worldSeed/
+out/
 src/main/resources/*.txt
 !src/main/resources/test.txt
+.gradle/
+build/

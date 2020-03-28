@@ -1,0 +1,51 @@
+plugins {
+    id "java"
+    id "application"
+    id "idea"
+}
+defaultTasks 'clean', 'run'
+
+repositories {
+    mavenCentral()
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+    dependencies {
+}
+
+application {
+    mainClassName = "Main"
+}
+
+jar {
+    archiveClassifier.set("sources")
+    manifest {
+        attributes(
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Main-Class": project.getProperty("mainClassName")
+        )
+    }
+    project.archivesBaseName = "terrain"
+}
+
+task fatJar(type: Jar) {
+    archiveClassifier.set("all")
+    manifest {
+        attributes(
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Main-Class": project.getProperty("mainClassName")
+        )
+    }
+    project.archivesBaseName = "terrain"
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}

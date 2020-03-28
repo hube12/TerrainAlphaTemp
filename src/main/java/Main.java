@@ -1,17 +1,10 @@
-
-
-import javafx.util.Pair;
-import sun.nio.ch.Net;
-import sun.swing.StringUIClientPropertyKey;
-
 import java.io.IOException;
-import java.lang.reflect.Parameter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -25,90 +18,94 @@ public class Main implements Runnable {
         this.index = index;
     }
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) {
         boolean debug = false;
 
-        ArrayList<Pair<String, Integer>> files = new ArrayList<>();
-        files.add(new Pair<>("seeds14.txt", 14));
-        files.add(new Pair<>("seeds15.txt", 15));
-        files.add(new Pair<>("seeds27.txt", 27));
-        files.add(new Pair<>("seeds29.txt", 29));
-        files.add(new Pair<>("seeds43.txt", 43));
-        files.add(new Pair<>("seeds45.txt", 45));
-        files.add(new Pair<>("seeds46.txt", 46));
-        files.add(new Pair<>("seeds47.txt", 47));
-        files.add(new Pair<>("seeds59.txt", 59));
-        files.add(new Pair<>("seeds60.txt", 60));
-        files.add(new Pair<>("seeds62.txt", 62));
-        files.add(new Pair<>("seeds63.txt", 63));
-        // ALL above are already have been runned
-        // ALL below are on GCP instance
-        files.add(new Pair<>("blob_seeds101.txt", 101));
-        files.add(new Pair<>("blob_seeds102.txt", 102));
-        files.add(new Pair<>("blob_seeds103.txt", 103));
-        files.add(new Pair<>("blob_seeds104.txt", 104));
-        files.add(new Pair<>("blob_seeds105.txt", 105));
-        files.add(new Pair<>("blob_seeds108.txt", 108));
-        files.add(new Pair<>("blob_seeds119.txt", 119));
-        files.add(new Pair<>("blob_seeds124.txt", 124));
-        files.add(new Pair<>("blob_seeds133.txt", 133));
-        files.add(new Pair<>("blob_seeds135.txt", 135));
-        files.add(new Pair<>("blob_seeds149.txt", 149));
-        files.add(new Pair<>("blob_seeds150.txt", 150));
-        files.add(new Pair<>("blob_seeds151.txt", 151));
-        files.add(new Pair<>("blob_seeds152.txt", 152));
-        files.add(new Pair<>("blob_seeds153.txt", 153));
-        files.add(new Pair<>("blob_seeds154.txt", 154));
-        files.add(new Pair<>("blob_seeds156.txt", 156));
-        files.add(new Pair<>("blob_seeds165.txt", 165));
-        files.add(new Pair<>("blob_seeds172.txt", 172));
-        files.add(new Pair<>("blob_seeds23.txt", 23));
-        files.add(new Pair<>("blob_seeds24.txt", 24));
-        files.add(new Pair<>("blob_seeds26.txt", 26));
-        files.add(new Pair<>("blob_seeds27.txt", 27));
-        files.add(new Pair<>("blob_seeds38.txt", 38));
-        files.add(new Pair<>("blob_seeds40.txt", 40));
-        files.add(new Pair<>("blob_seeds41.txt", 41));
-        files.add(new Pair<>("blob_seeds42.txt", 42));
-        files.add(new Pair<>("blob_seeds43.txt", 43));
-        files.add(new Pair<>("blob_seeds53.txt", 53));
-        files.add(new Pair<>("blob_seeds55.txt", 55));
-        files.add(new Pair<>("blob_seeds59.txt", 59));
-        files.add(new Pair<>("blob_seeds6.txt", 6));
-        files.add(new Pair<>("blob_seeds60.txt", 60));
-        files.add(new Pair<>("blob_seeds7.txt", 7));
-        files.add(new Pair<>("blob_seeds70.txt", 70));
-        files.add(new Pair<>("blob_seeds73.txt", 73));
-        files.add(new Pair<>("blob_seeds74.txt", 74));
-        files.add(new Pair<>("blob_seeds76.txt", 76));
-        files.add(new Pair<>("blob_seeds87.txt", 87));
-        files.add(new Pair<>("blob_seeds88.txt", 88));
-        files.add(new Pair<>("blob_seeds89.txt", 89));
-        files.add(new Pair<>("blob_seeds9.txt", 9));
-        files.add(new Pair<>("blob_seeds90.txt", 90));
-        files.add(new Pair<>("blob_seeds92.txt", 92));
-
-        files.add(new Pair<>("seeds108.txt", 108));
-        files.add(new Pair<>("seeds110.txt", 110));
-        files.add(new Pair<>("seeds124.txt", 124));
-        files.add(new Pair<>("seeds126.txt", 126));
-        files.add(new Pair<>("seeds141.txt", 141));
-        files.add(new Pair<>("seeds143.txt", 143));
-        files.add(new Pair<>("seeds156.txt", 156));
-        files.add(new Pair<>("seeds157.txt", 157));
-        files.add(new Pair<>("seeds158.txt", 158));
-        files.add(new Pair<>("seeds172.txt", 172));
-        files.add(new Pair<>("seeds76.txt", 76));
-        files.add(new Pair<>("seeds78.txt", 78));
-        files.add(new Pair<>("seeds79.txt", 79));
-        files.add(new Pair<>("seeds92.txt", 92));
-        files.add(new Pair<>("seeds93.txt", 93));
+        ArrayList<List<Object>> files = new ArrayList<>();
+        files.add(Arrays.asList("blob_seeds0.txt",0));
+        files.add(Arrays.asList("blob_seeds100.txt",100));
+        files.add(Arrays.asList("blob_seeds110.txt",110));
+        files.add(Arrays.asList("blob_seeds112.txt",112));
+        files.add(Arrays.asList("blob_seeds114.txt",114));
+        files.add(Arrays.asList("blob_seeds115.txt",115));
+        files.add(Arrays.asList("blob_seeds116.txt",116));
+        files.add(Arrays.asList("blob_seeds126.txt",126));
+        files.add(Arrays.asList("blob_seeds128.txt",128));
+        files.add(Arrays.asList("blob_seeds141.txt",141));
+        files.add(Arrays.asList("blob_seeds143.txt",143));
+        files.add(Arrays.asList("blob_seeds146.txt",146));
+        files.add(Arrays.asList("blob_seeds147.txt",147));
+        files.add(Arrays.asList("blob_seeds14.txt",14));
+        files.add(Arrays.asList("blob_seeds157.txt",157));
+        files.add(Arrays.asList("blob_seeds158.txt",158));
+        files.add(Arrays.asList("blob_seeds15.txt",15));
+        files.add(Arrays.asList("blob_seeds160.txt",160));
+        files.add(Arrays.asList("blob_seeds164.txt",164));
+        files.add(Arrays.asList("blob_seeds16.txt",16));
+        files.add(Arrays.asList("blob_seeds177.txt",177));
+        files.add(Arrays.asList("blob_seeds18.txt",18));
+        files.add(Arrays.asList("blob_seeds20.txt",20));
+        files.add(Arrays.asList("blob_seeds29.txt",29));
+        files.add(Arrays.asList("blob_seeds2.txt",2));
+        files.add(Arrays.asList("blob_seeds34.txt",34));
+        files.add(Arrays.asList("blob_seeds35.txt",35));
+        files.add(Arrays.asList("blob_seeds36.txt",36));
+        files.add(Arrays.asList("blob_seeds3.txt",3));
+        files.add(Arrays.asList("blob_seeds45.txt",45));
+        files.add(Arrays.asList("blob_seeds46.txt",46));
+        files.add(Arrays.asList("blob_seeds47.txt",47));
+        files.add(Arrays.asList("blob_seeds49.txt",49));
+        files.add(Arrays.asList("blob_seeds4.txt",4));
+        files.add(Arrays.asList("blob_seeds50.txt",50));
+        files.add(Arrays.asList("blob_seeds52.txt",52));
+        files.add(Arrays.asList("blob_seeds62.txt",62));
+        files.add(Arrays.asList("blob_seeds63.txt",63));
+        files.add(Arrays.asList("blob_seeds66.txt",66));
+        files.add(Arrays.asList("blob_seeds78.txt",78));
+        files.add(Arrays.asList("blob_seeds79.txt",79));
+        files.add(Arrays.asList("blob_seeds80.txt",80));
+        files.add(Arrays.asList("blob_seeds84.txt",84));
+        files.add(Arrays.asList("blob_seeds93.txt",93));
+        files.add(Arrays.asList("blob_seeds96.txt",96));
+        files.add(Arrays.asList("blob_seeds98.txt",98));
+        files.add(Arrays.asList("blob_seeds99.txt",99));
+        files.add(Arrays.asList("seeds100.txt",100));
+        files.add(Arrays.asList("seeds101.txt",101));
+        files.add(Arrays.asList("seeds102.txt",102));
+        files.add(Arrays.asList("seeds103.txt",103));
+        files.add(Arrays.asList("seeds115.txt",115));
+        files.add(Arrays.asList("seeds116.txt",116));
+        files.add(Arrays.asList("seeds119.txt",119));
+        files.add(Arrays.asList("seeds133.txt",133));
+        files.add(Arrays.asList("seeds135.txt",135));
+        files.add(Arrays.asList("seeds147.txt",147));
+        files.add(Arrays.asList("seeds149.txt",149));
+        files.add(Arrays.asList("seeds150.txt",150));
+        files.add(Arrays.asList("seeds151.txt",151));
+        files.add(Arrays.asList("seeds164.txt",164));
+        files.add(Arrays.asList("seeds165.txt",165));
+        files.add(Arrays.asList("seeds20.txt",20));
+        files.add(Arrays.asList("seeds23.txt",23));
+        files.add(Arrays.asList("seeds35.txt",35));
+        files.add(Arrays.asList("seeds36.txt",36));
+        files.add(Arrays.asList("seeds38.txt",38));
+        files.add(Arrays.asList("seeds3.txt",3));
+        files.add(Arrays.asList("seeds4.txt",4));
+        files.add(Arrays.asList("seeds52.txt",52));
+        files.add(Arrays.asList("seeds53.txt",53));
+        files.add(Arrays.asList("seeds55.txt",55));
+        files.add(Arrays.asList("seeds6.txt",6));
+        files.add(Arrays.asList("seeds70.txt",70));
+        files.add(Arrays.asList("seeds7.txt",7));
+        files.add(Arrays.asList("seeds84.txt",84));
+        files.add(Arrays.asList("seeds87.txt",87));
+        files.add(Arrays.asList("seeds99.txt",99));
 
 
 
 
         for (int i = 0; i < 12; i++) {
-            Thread thread = new Thread(new Main(files.get(i).getKey(), files.get(i).getValue()-1));
+            Thread thread = new Thread(new Main((String)files.get(i).get(0), ((int)files.get(i).get(1))-1));
             thread.start();
         }
         if (debug) {
@@ -116,8 +113,10 @@ public class Main implements Runnable {
         }
     }
 
+
     public void run() {
         int[] mapWat = {77,78,77,75}; // from z 12 to z15 in chunk
+        int OFFSET=12;
         List<Long> worldSeeds = null;
         long id=Thread.currentThread().getId();
         try {
@@ -154,7 +153,7 @@ public class Main implements Runnable {
             byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, Boolean.FALSE, biomeGenerationInstance, biomesForGeneration);
             boolean flag = true;
             for (int z = 0; z < mapWat.length; z++) {
-                int pos = 128* ind * 16 + 128*(z+12);
+                int pos = 128* ind * 16 + 128*(z+OFFSET);
                 int y;
                 for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
                 if ((y+1) != mapWat[z]) {
