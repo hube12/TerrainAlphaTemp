@@ -2,7 +2,7 @@
 *.zip
 worldSeed/
 out/
-src/main/resources/*.txt
+src/main/resources/*
 !src/main/resources/test.txt
 .gradle/
 build/
