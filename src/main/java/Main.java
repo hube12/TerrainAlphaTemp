@@ -166,7 +166,7 @@ public class Main implements Runnable {
                 }
             }
             if (flag) {
-                System.out.println(seed + " at x:"+index+" z:-30");
+                System.out.println("Seed " + seed + " at x:"+index+" z:-30");
             }
 
         }
