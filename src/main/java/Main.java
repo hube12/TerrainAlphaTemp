@@ -22,20 +22,20 @@ public class Main implements Runnable {
         boolean debug = false;
 
         ArrayList<List<Object>> files = new ArrayList<>();
-        files.add(Arrays.asList("blob_seeds0.txt",0));
-        //files.add(Arrays.asList("blob_seeds100.txt",100));
-        //files.add(Arrays.asList("blob_seeds110.txt",110));
-        files.add(Arrays.asList("blob_seeds112.txt",112));
-        files.add(Arrays.asList("blob_seeds114.txt",114));
-        files.add(Arrays.asList("blob_seeds115.txt",115));
-        files.add(Arrays.asList("blob_seeds116.txt",116));
-        files.add(Arrays.asList("blob_seeds126.txt",126));
-        files.add(Arrays.asList("blob_seeds128.txt",128));
-        files.add(Arrays.asList("blob_seeds141.txt",141));
-        files.add(Arrays.asList("blob_seeds143.txt",143));
-        files.add(Arrays.asList("blob_seeds146.txt",146));
-        files.add(Arrays.asList("blob_seeds147.txt",147));
-        files.add(Arrays.asList("blob_seeds14.txt",14));
+        //files.add(Arrays.asList("blob_seeds0.txt",0));
+        ////files.add(Arrays.asList("blob_seeds100.txt",100));
+        ////files.add(Arrays.asList("blob_seeds110.txt",110));
+        //files.add(Arrays.asList("blob_seeds112.txt",112));
+        //files.add(Arrays.asList("blob_seeds114.txt",114));
+        //files.add(Arrays.asList("blob_seeds115.txt",115));
+        //files.add(Arrays.asList("blob_seeds116.txt",116));
+        //files.add(Arrays.asList("blob_seeds126.txt",126));
+        //files.add(Arrays.asList("blob_seeds128.txt",128));
+        //files.add(Arrays.asList("blob_seeds141.txt",141));
+        //files.add(Arrays.asList("blob_seeds143.txt",143));
+        //files.add(Arrays.asList("blob_seeds146.txt",146));
+        //files.add(Arrays.asList("blob_seeds147.txt",147));
+        //files.add(Arrays.asList("blob_seeds14.txt",14));
         files.add(Arrays.asList("blob_seeds157.txt",157));
         files.add(Arrays.asList("blob_seeds158.txt",158));
         files.add(Arrays.asList("blob_seeds15.txt",15));
@@ -104,7 +104,7 @@ public class Main implements Runnable {
 
 
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 8; i++) {
             Thread thread = new Thread(new Main((String)files.get(i).get(0), ((int)files.get(i).get(1))-1));
             thread.start();
         }
@@ -138,6 +138,9 @@ public class Main implements Runnable {
         int ind = (index % 16 +16)%16;
         for (long seed : worldSeeds) {
             cur++;
+            if ((cur % 100000) == 0) {
+                System.out.printf("Time %f at %d %f%% on %d\n",(System.nanoTime() - time) / 1e9, cur, (double) cur / tot * 100,id);
+            }
             BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
             biomeGenerationInstance.loadBiomes(biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
             boolean skipIt = false;
@@ -165,9 +168,7 @@ public class Main implements Runnable {
             if (flag) {
                 System.out.println(seed + " at x:"+index+" z:-30");
             }
-            if ((cur % 100000) == 0) {
-                System.out.printf("Time %f at %d %f%% on %d\n",(System.nanoTime() - time) / 1e9, cur, (double) cur / tot * 100,id);
-            }
+
         }
         System.out.println("Finished on thread " + id + " at " +(System.nanoTime() - time) / 1e9);
     }

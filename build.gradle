@@ -16,7 +16,7 @@ java {
 
 tasks.withType(JavaExec) {
     // memory at least 1.5*thread count
-    jvmArgs '-Xmx24g'
+    jvmArgs '-Xmx14g'
     jvmArgs '-XX:-UseGCOverheadLimit'
     jvmArgs '-XX:+UseConcMarkSweepGC'
 }
