@@ -46,65 +46,67 @@ public class Main implements Runnable {
         //files.add(Arrays.asList("blob_seeds18.txt",18));
         //files.add(Arrays.asList("blob_seeds20.txt",20));
         //files.add(Arrays.asList("blob_seeds29.txt",29));
-        files.add(Arrays.asList("blob_seeds2.txt",2));
-        files.add(Arrays.asList("blob_seeds34.txt",34));
-        files.add(Arrays.asList("blob_seeds35.txt",35));
-        files.add(Arrays.asList("blob_seeds36.txt",36));
-        files.add(Arrays.asList("blob_seeds3.txt",3));
-        files.add(Arrays.asList("blob_seeds45.txt",45));
-        files.add(Arrays.asList("blob_seeds46.txt",46));
-        files.add(Arrays.asList("blob_seeds47.txt",47));
-        files.add(Arrays.asList("blob_seeds49.txt",49));
-        files.add(Arrays.asList("blob_seeds4.txt",4));
-        files.add(Arrays.asList("blob_seeds50.txt",50));
-        files.add(Arrays.asList("blob_seeds52.txt",52));
-        files.add(Arrays.asList("blob_seeds62.txt",62));
-        files.add(Arrays.asList("blob_seeds63.txt",63));
-        files.add(Arrays.asList("blob_seeds66.txt",66));
-        files.add(Arrays.asList("blob_seeds78.txt",78));
-        files.add(Arrays.asList("blob_seeds79.txt",79));
-        files.add(Arrays.asList("blob_seeds80.txt",80));
-        files.add(Arrays.asList("blob_seeds84.txt",84));
-        files.add(Arrays.asList("blob_seeds93.txt",93));
-        files.add(Arrays.asList("blob_seeds96.txt",96));
-        files.add(Arrays.asList("blob_seeds98.txt",98));
-        files.add(Arrays.asList("blob_seeds99.txt",99));
-        files.add(Arrays.asList("seeds100.txt",100));
-        files.add(Arrays.asList("seeds101.txt",101));
-        files.add(Arrays.asList("seeds102.txt",102));
-        files.add(Arrays.asList("seeds103.txt",103));
-        files.add(Arrays.asList("seeds115.txt",115));
-        files.add(Arrays.asList("seeds116.txt",116));
-        files.add(Arrays.asList("seeds119.txt",119));
-        files.add(Arrays.asList("seeds133.txt",133));
-        files.add(Arrays.asList("seeds135.txt",135));
-        files.add(Arrays.asList("seeds147.txt",147));
-        files.add(Arrays.asList("seeds149.txt",149));
-        files.add(Arrays.asList("seeds150.txt",150));
-        files.add(Arrays.asList("seeds151.txt",151));
-        files.add(Arrays.asList("seeds164.txt",164));
-        files.add(Arrays.asList("seeds165.txt",165));
-        files.add(Arrays.asList("seeds20.txt",20));
-        files.add(Arrays.asList("seeds23.txt",23));
-        files.add(Arrays.asList("seeds35.txt",35));
-        files.add(Arrays.asList("seeds36.txt",36));
-        files.add(Arrays.asList("seeds38.txt",38));
-        files.add(Arrays.asList("seeds3.txt",3));
-        files.add(Arrays.asList("seeds4.txt",4));
-        files.add(Arrays.asList("seeds52.txt",52));
-        files.add(Arrays.asList("seeds53.txt",53));
-        files.add(Arrays.asList("seeds55.txt",55));
-        files.add(Arrays.asList("seeds6.txt",6));
-        files.add(Arrays.asList("seeds70.txt",70));
-        files.add(Arrays.asList("seeds7.txt",7));
-        files.add(Arrays.asList("seeds84.txt",84));
-        files.add(Arrays.asList("seeds87.txt",87));
-        files.add(Arrays.asList("seeds99.txt",99));
+
+
+        //GCP
+
+        files.add(Arrays.asList("seeds9901",99));
+        files.add(Arrays.asList("seeds9902",99));
+        files.add(Arrays.asList("seeds9903",99));
+        files.add(Arrays.asList("seeds9904",99));
+        files.add(Arrays.asList("seeds9905",99));
+        files.add(Arrays.asList("seeds9906",99));
+        files.add(Arrays.asList("seeds9907",99));
+        files.add(Arrays.asList("seeds9908",99));
+        files.add(Arrays.asList("seeds9909",99));
+        files.add(Arrays.asList("seeds9910",99));
+        files.add(Arrays.asList("seeds9911",99));
+        files.add(Arrays.asList("seeds9912",99));
+        files.add(Arrays.asList("seeds9913",99));
+        files.add(Arrays.asList("seeds9914",99));
+        files.add(Arrays.asList("seeds9915",99));
+        files.add(Arrays.asList("seeds9916",99));
+        files.add(Arrays.asList("seeds9917",99));
+        files.add(Arrays.asList("seeds9918",99));
+        files.add(Arrays.asList("seeds9919",99));
+        files.add(Arrays.asList("seeds9920",99));
+        files.add(Arrays.asList("seeds9921",99));
+        files.add(Arrays.asList("seeds9922",99));
+        files.add(Arrays.asList("seeds9923",99));
+        files.add(Arrays.asList("seeds9924",99));
+        files.add(Arrays.asList("seeds9925",99));
+        files.add(Arrays.asList("seeds9926",99));
+        files.add(Arrays.asList("seeds9927",99));
+        files.add(Arrays.asList("seeds9928",99));
+        files.add(Arrays.asList("seeds9929",99));
+        files.add(Arrays.asList("seeds9930",99));
+        files.add(Arrays.asList("seeds9931",99));
+        files.add(Arrays.asList("seeds9932",99));
+        files.add(Arrays.asList("seeds9933",99));
+        files.add(Arrays.asList("seeds9934",99));
+        files.add(Arrays.asList("seeds9935",99));
+        files.add(Arrays.asList("seeds9936",99));
+        files.add(Arrays.asList("seeds9937",99));
+        files.add(Arrays.asList("seeds9938",99));
+        files.add(Arrays.asList("seeds9939",99));
+        files.add(Arrays.asList("seeds9940",99));
+        files.add(Arrays.asList("seeds9941",99));
+        files.add(Arrays.asList("seeds9942",99));
+        files.add(Arrays.asList("seeds9943",99));
+        files.add(Arrays.asList("seeds9944",99));
+        files.add(Arrays.asList("seeds9945",99));
+        files.add(Arrays.asList("seeds9946",99));
+        files.add(Arrays.asList("seeds9947",99));
+        files.add(Arrays.asList("seeds9948",99));
+        files.add(Arrays.asList("seeds9949",99));
+        files.add(Arrays.asList("seeds9950",99));
+
+        //files.add(Arrays.asList("seeds87.txt",87));
+        //files.add(Arrays.asList("seeds99.txt",99));
 
 
 
-
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 50; i++) {
             Thread thread = new Thread(new Main((String)files.get(i).get(0), ((int)files.get(i).get(1))-1));
             thread.start();
         }
@@ -120,7 +122,7 @@ public class Main implements Runnable {
         List<Long> worldSeeds = null;
         long id=Thread.currentThread().getId();
         try {
-            URI path = Objects.requireNonNull(Main.class.getClassLoader().getResource("seeds/"+name)).toURI();
+            URI path = Objects.requireNonNull(Main.class.getClassLoader().getResource(name)).toURI();
             System.out.println(path + " "+ id+" "+index);
             worldSeeds = Files.lines(Paths.get(path)).map(Long::valueOf).collect(Collectors.toList());
             System.out.println(worldSeeds.size()+ " "+id );
