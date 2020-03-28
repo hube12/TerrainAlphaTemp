@@ -11,9 +11,14 @@ repositories {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+
 }
 
-    dependencies {
+tasks.withType(JavaExec) {
+    // memory at least 1.5*thread count
+    jvmArgs '-Xmx8g'
+    jvmArgs '-XX:-UseGCOverheadLimit'
+    jvmArgs '-XX:+UseConcMarkSweepGC'
 }
 
 application {
