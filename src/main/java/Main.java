@@ -39,7 +39,7 @@ public class Main implements Runnable {
         //files.add(Arrays.asList("blob_seeds116.txt", 116));
         //files.add(Arrays.asList("blob_seeds147.txt", 147));
         //files.add(Arrays.asList("blob_seeds164.txt", 164));
-//
+//done gcp
       //files.add(Arrays.asList("blob_seeds112.txt", 112));
       //files.add(Arrays.asList("blob_seeds114.txt", 114));
       //files.add(Arrays.asList("blob_seeds128.txt", 128));
@@ -56,6 +56,7 @@ public class Main implements Runnable {
       //files.add(Arrays.asList("blob_seeds96.txt", 96));
       //files.add(Arrays.asList("blob_seeds98.txt", 98));
 
+        //done gcp
        // files.add(Arrays.asList("seeds100.txt00", 100));
        // files.add(Arrays.asList("seeds100.txt01", 100));
        // files.add(Arrays.asList("seeds100.txt02", 100));
