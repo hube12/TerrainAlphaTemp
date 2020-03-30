@@ -53,7 +53,7 @@ public class Main implements Runnable {
        files.add(Arrays.asList("blob_seeds50.txt", 50));
        files.add(Arrays.asList("blob_seeds66.txt", 66));
        files.add(Arrays.asList("blob_seeds80.txt", 80));
-       files.add(Arrays.asList("blob_seeds96.txt00", 96;
+       files.add(Arrays.asList("blob_seeds96.txt00", 96));
        files.add(Arrays.asList("blob_seeds98.txt00", 98));
 
        // files.add(Arrays.asList("seeds100.txt00", 100));
