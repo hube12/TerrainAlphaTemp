@@ -40,21 +40,21 @@ public class Main implements Runnable {
         //files.add(Arrays.asList("blob_seeds147.txt", 147));
         //files.add(Arrays.asList("blob_seeds164.txt", 164));
 //
-       files.add(Arrays.asList("blob_seeds112.txt", 112));
-       files.add(Arrays.asList("blob_seeds114.txt", 114));
-       files.add(Arrays.asList("blob_seeds128.txt", 128));
-       files.add(Arrays.asList("blob_seeds146.txt", 146));
-       files.add(Arrays.asList("blob_seeds16.txt", 16));
-       files.add(Arrays.asList("blob_seeds160.txt", 160));
-       files.add(Arrays.asList("blob_seeds177.txt", 177));
-       files.add(Arrays.asList("blob_seeds18.txt", 18));
-       files.add(Arrays.asList("blob_seeds34.txt", 34));
-       files.add(Arrays.asList("blob_seeds49.txt", 49));
-       files.add(Arrays.asList("blob_seeds50.txt", 50));
-       files.add(Arrays.asList("blob_seeds66.txt", 66));
-       files.add(Arrays.asList("blob_seeds80.txt", 80));
-       files.add(Arrays.asList("blob_seeds96.txt", 96));
-       files.add(Arrays.asList("blob_seeds98.txt", 98));
+      //files.add(Arrays.asList("blob_seeds112.txt", 112));
+      //files.add(Arrays.asList("blob_seeds114.txt", 114));
+      //files.add(Arrays.asList("blob_seeds128.txt", 128));
+      //files.add(Arrays.asList("blob_seeds146.txt", 146));
+      //files.add(Arrays.asList("blob_seeds16.txt", 16));
+      //files.add(Arrays.asList("blob_seeds160.txt", 160));
+      //files.add(Arrays.asList("blob_seeds177.txt", 177));
+      //files.add(Arrays.asList("blob_seeds18.txt", 18));
+      //files.add(Arrays.asList("blob_seeds34.txt", 34));
+      //files.add(Arrays.asList("blob_seeds49.txt", 49));
+      //files.add(Arrays.asList("blob_seeds50.txt", 50));
+      //files.add(Arrays.asList("blob_seeds66.txt", 66));
+      //files.add(Arrays.asList("blob_seeds80.txt", 80));
+      //files.add(Arrays.asList("blob_seeds96.txt", 96));
+      //files.add(Arrays.asList("blob_seeds98.txt", 98));
 
        // files.add(Arrays.asList("seeds100.txt00", 100));
        // files.add(Arrays.asList("seeds100.txt01", 100));
@@ -221,7 +221,7 @@ public class Main implements Runnable {
         files.add(Arrays.asList("seeds99.txt04", 99));
 
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 34; i++) {
             Thread thread = new Thread(new Main((String) files.get(i).get(0), ((int) files.get(i).get(1)) - 1, i));
             thread.start();
         }
