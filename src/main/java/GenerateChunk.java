@@ -66,7 +66,7 @@ public class GenerateChunk {
         this.biomeGenerationInstance=biomeGenerationInstance;
         double[] temperatures = this.biomeGenerationInstance.temperature;
         byte[] heights = generateTerrain(chunkX, chunkZ, chunkCache, temperatures);
-        replaceBlockForBiomes(chunkX, chunkZ, chunkCache, biomesForGeneration);
+        if (!fast) replaceBlockForBiomes(chunkX, chunkZ, chunkCache, biomesForGeneration);
         return fast ? heights : chunkCache;
     }
 
