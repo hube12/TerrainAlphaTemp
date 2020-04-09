@@ -169,7 +169,7 @@ public class GenerateChunk {
         NoiseColumn = fillNoiseColumn(NoiseColumn, chunkX * cellSize, chunkZ * cellSize);
         for (int x = 0; x < cellSize; x++) {
             for (int z = 0; z < cellSize; z++) {
-                for (int height = 0; height < 16; height++) {
+                for (int height = 7; height < 16; height++) {
                     double d = 0.125D;
                     int off_0_0 = x * l + z;
                     int off_0_1 = x * l + (z + 1);
@@ -183,7 +183,7 @@ public class GenerateChunk {
                     double d6 = (NoiseColumn[(off_0_1) * byte2 + (height + 1)] - d2) * d;
                     double d7 = (NoiseColumn[off_1_0 * byte2 + (height + 1)] - d3) * d;
                     double d8 = (NoiseColumn[off_1_1 * byte2 + (height + 1)] - d4) * d;
-                    for (int l1 = 0; l1 < 8; l1++) {
+                    for (int l1 = 7; l1 < 8; l1++) {
                         double d9 = 0.25D;
                         double d10 = d1;
                         double d11 = d2;
@@ -203,11 +203,11 @@ public class GenerateChunk {
                                         l2 = Blocks.ICE;
                                     } else {
                                         l2 = Blocks.MOVING_WATER;
+                                        heights[j2 >> 7] = (byte) (j2 & 0x7F);
                                     }
                                 }
                                 if (d15 > 0.0D) {
                                     l2 = Blocks.STONE;
-                                    heights[j2 >> 7] = (byte) (j2 & 0x7F);
                                 }
                                 chunkCache[j2] = (byte) l2.getValue();
                                 j2 += c;

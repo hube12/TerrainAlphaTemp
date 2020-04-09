@@ -100,8 +100,8 @@ public class Main implements Runnable {
     public void debug() {
         Boolean fast = Boolean.TRUE;
         int chunkX = 0;
-        int chunkZ = -3;
-        long seed = 10;
+        int chunkZ = 0;
+        long seed = 1;
 
         BiomesBase[] biomesForGeneration = null;
         BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
@@ -109,6 +109,7 @@ public class Main implements Runnable {
         for (BiomesBase biomesBase : biomesForGeneration) {
             System.out.print(biomesBase.name + " ");
         }
+        System.out.println();
         System.out.println();
         GenerateChunk generateChunk = new GenerateChunk(seed);
         byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, fast, biomeGenerationInstance, biomesForGeneration);
