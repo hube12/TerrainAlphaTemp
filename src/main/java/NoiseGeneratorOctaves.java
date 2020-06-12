@@ -5,38 +5,37 @@ import java.util.Arrays;
 
 public class NoiseGeneratorOctaves extends NoiseGenerator {
 
-    public NoiseGeneratorOctaves(Random random, int i) {
-        octaves = i;
-        noiseArray = new NoiseGeneratorPerlin[i];
-        for (int j = 0; j < i; j++) {
-            noiseArray[j] = new NoiseGeneratorPerlin(random);
+    public NoiseGeneratorOctaves(Random random, int nbOctaves) {
+        octaves = nbOctaves;
+        noiseArray = new NoiseGeneratorPerlin[nbOctaves];
+        for (int octave = 0; octave < nbOctaves; octave++) {
+            noiseArray[octave] = new NoiseGeneratorPerlin(random);
         }
 
     }
 
-    public double[] generateNoise(double[] ad, double d, double d1, double d2,
-                                  int i, int j, int k, double d3, double d4,
+    public double[] generateNoise(double[] buffer, double x, double y, double z,
+                                  int sizeX, int sizeY, int sizeZ, double d3, double d4,
                                   double d5) {
-        if (ad == null) {
-            ad = new double[i * j * k];
+        if (buffer == null) {
+            buffer = new double[sizeX * sizeY * sizeZ];
         } else {
-            Arrays.fill(ad, 0.0D);
+            Arrays.fill(buffer, 0.0D);
 
         }
-        double d6 = 1.0D;
-        for (int i1 = 0; i1 < octaves; i1++) {
-            noiseArray[i1].generatePermutations(ad, d, d1, d2, i, j, k, d3 * d6, d4 * d6, d5 * d6, d6);
-            d6 /= 2D;
+        double octavesFactor = 1.0D;
+        for (int octave = 0; octave < octaves; octave++) {
+            noiseArray[octave].generatePermutations(buffer, x, y, z, sizeX, sizeY, sizeZ, d3 * octavesFactor, d4 * octavesFactor, d5 * octavesFactor, octavesFactor);
+            octavesFactor /= 2D;
         }
 
-        return ad;
+        return buffer;
     }
 
-    public double[] generateFixedNoise(double[] ad, int i, int j, int k, int l, double d,
-                                       double d1, double d2) {
-        return generateNoise(ad, i, 10D, j, k, 1, l, d, 1.0D, d1);
+    public double[] generateFixedNoise(double[] buffer, int x, int z, int sizeX, int sizeZ, double d, double d1) {
+        return generateNoise(buffer, x, 10D, z, sizeX, 1, sizeZ, d, 1.0D, d1);
     }
 
-    private NoiseGeneratorPerlin[] noiseArray;
-    private int octaves;
+    private final NoiseGeneratorPerlin[] noiseArray;
+    private final int octaves;
 }
