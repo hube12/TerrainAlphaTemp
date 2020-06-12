@@ -8,14 +8,14 @@ public class BiomeGeneration {
     public double[] humidity;
     public double[] unknown;
 
-    private SimplifiedNoiseOctaves tempOctaves;
-    private SimplifiedNoiseOctaves humidityOctaves;
-    private SimplifiedNoiseOctaves unknowOctaves;
+    private SimplexNoiseOctaves tempOctaves;
+    private SimplexNoiseOctaves humidityOctaves;
+    private SimplexNoiseOctaves unknowOctaves;
 
     public BiomeGeneration(long worldSeed) {
-        tempOctaves = new SimplifiedNoiseOctaves(new Random(worldSeed * 9871L), 4);
-        humidityOctaves = new SimplifiedNoiseOctaves(new Random(worldSeed * 39811L), 4);
-        unknowOctaves = new SimplifiedNoiseOctaves(new Random(worldSeed * 0x84a59L), 2);
+        tempOctaves = new SimplexNoiseOctaves(new Random(worldSeed * 9871L), 4);
+        humidityOctaves = new SimplexNoiseOctaves(new Random(worldSeed * 39811L), 4);
+        unknowOctaves = new SimplexNoiseOctaves(new Random(worldSeed * 0x84a59L), 2);
     }
 
     public BiomesBase[] loadBiomes(BiomesBase[] biomes, int chunkX, int chunkZ, int sizeX, int sizeZ) {

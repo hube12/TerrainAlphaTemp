@@ -19,7 +19,7 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
-        boolean debug = false;
+        boolean debug = true;
 
         ArrayList<List<Object>> files = new ArrayList<>();
         //files.add(Arrays.asList("blob_seeds0.txt",0));
@@ -104,12 +104,12 @@ public class Main implements Runnable {
 
 
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 0; i++) {
             Thread thread = new Thread(new Main((String)files.get(i).get(0), ((int)files.get(i).get(1))-1));
             thread.start();
         }
         if (debug) {
-            new Main("blob_seeds0.txt", -1).run();
+            new Main("test.txt", -1).debug();
         }
     }
 
