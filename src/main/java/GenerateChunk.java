@@ -243,7 +243,7 @@ public class GenerateChunk {
                 boolean sandy = sandFields[x + z * 16] + worldRandom.nextDouble() * 0.20000000000000001D > 0.0D;
                 boolean gravelly = gravelField[x + z * 16] + worldRandom.nextDouble() * 0.20000000000000001D > 3D;
                 int elevation = (int) (heightField[x + z * 16] / 3D + 3D + worldRandom.nextDouble() * 0.25D);
-                int j1 = -1;
+                int state = -1;
                 byte aboveOceanAkaLand = biome.grassOrEquivalentSand;
                 byte belowOceanAkaEarthCrust = biome.dirtOrEquivalentSand;
                 for (int y = 127; y >= 0; y--) {
@@ -256,13 +256,13 @@ public class GenerateChunk {
                     byte previousBlock = chunkCache[chunkCachePos];
 
                     if (previousBlock == 0) {
-                        j1 = -1;
+                        state = -1;
                         continue;
                     }
                     if (previousBlock != (byte) Blocks.STONE.getValue()) {
                         continue;
                     }
-                    if (j1 == -1) {
+                    if (state == -1) {
                         if (elevation <= 0) {
                             aboveOceanAkaLand = 0;
                             belowOceanAkaEarthCrust = (byte) Blocks.STONE.getValue();
@@ -285,7 +285,7 @@ public class GenerateChunk {
                         if (y < oceanLevel && aboveOceanAkaLand == 0) {
                             aboveOceanAkaLand = (byte) Blocks.MOVING_WATER.getValue();
                         }
-                        j1 = elevation;
+                        state = elevation;
                         if (y >= oceanLevel - 1) {
                             chunkCache[chunkCachePos] = aboveOceanAkaLand;
                         } else {
@@ -293,8 +293,8 @@ public class GenerateChunk {
                         }
                         continue;
                     }
-                    if (j1 > 0) {
-                        j1--;
+                    if (state > 0) {
+                        state--;
                         chunkCache[chunkCachePos] = belowOceanAkaEarthCrust;
 
                     }
