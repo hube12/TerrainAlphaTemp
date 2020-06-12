@@ -11,13 +11,13 @@ public class SimplexNoiseOctaves extends NoiseGenerator {
 
     }
 
-    public double[] generateNoise(double[] cache, double chunkX, double chunkZ, int x, int z, double offsetX, double offsetY, double offsetZ) {
-        return generateOctaves(cache, chunkX, chunkZ, x, z, offsetX, offsetY, offsetZ, 0.5D);
+    public double[] generateNoise(double[] cache, double chunkX, double chunkZ, int x, int z, double offsetX, double offsetZ, double ampFactor) {
+        return generateOctaves(cache, chunkX, chunkZ, x, z, offsetX, offsetZ, ampFactor, 0.5D);
     }
 
-    public double[] generateOctaves(double[] cache, double chunkX, double chunkZ, int x, int z, double offsetX, double offsetY, double offsetZ, double octaveFactor) {
+    public double[] generateOctaves(double[] cache, double chunkX, double chunkZ, int x, int z, double offsetX, double offsetZ, double ampFactor, double octaveFactor) {
         offsetX /= 1.5D;
-        offsetY /= 1.5D;
+        offsetZ /= 1.5D;
         if (cache == null || cache.length < x * z) {
             cache = new double[x * z];
         } else {
@@ -27,8 +27,8 @@ public class SimplexNoiseOctaves extends NoiseGenerator {
         double octaveDiminution = 1.0D;
         double octaveAmplification = 1.0D;
         for (int l = 0; l < nbOctaves; l++) {
-            noise[l].noise(cache, chunkX, chunkZ, x, z, offsetX * octaveAmplification, offsetY * octaveAmplification, 0.55000000000000004D / octaveDiminution);
-            octaveAmplification *= offsetZ;
+            noise[l].noise(cache, chunkX, chunkZ, x, z, offsetX * octaveAmplification, offsetZ * octaveAmplification, 0.55000000000000004D / octaveDiminution);
+            octaveAmplification *= ampFactor;
             octaveDiminution *= octaveFactor;
         }
         return cache;

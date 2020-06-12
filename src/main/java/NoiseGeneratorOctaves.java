@@ -14,9 +14,7 @@ public class NoiseGeneratorOctaves extends NoiseGenerator {
 
     }
 
-    public double[] generateNoise(double[] buffer, double x, double y, double z,
-                                  int sizeX, int sizeY, int sizeZ, double offsetX, double offsetY,
-                                  double offsetZ) {
+    public double[] generateNoise(double[] buffer, double x, double y, double z, int sizeX, int sizeY, int sizeZ, double offsetX, double offsetY, double offsetZ) {
         if (buffer == null) {
             buffer = new double[sizeX * sizeY * sizeZ];
         } else {

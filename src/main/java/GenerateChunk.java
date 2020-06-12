@@ -2,7 +2,7 @@
 
 
 public class GenerateChunk {
-    private Random worldRandom;
+    private final Random worldRandom;
     private BiomesBase[] biomesForGeneration;
     BiomeGeneration biomeGenerationInstance;
     double[] mainLimitPerlinNoise;
@@ -22,7 +22,7 @@ public class GenerateChunk {
         GRAVEL(13),
         ICE(79);
 
-        private int value;
+        private final int value;
 
         Blocks(int value) {
             this.value = value;
@@ -37,14 +37,14 @@ public class GenerateChunk {
     private double[] gravelField;
     private double[] heightField;
     private double[] NoiseColumn;
-    private NoiseGeneratorOctaves minLimit;
-    private NoiseGeneratorOctaves maxLimit;
-    private NoiseGeneratorOctaves mainLimit;
-    private NoiseGeneratorOctaves shoresBottomComposition;
-    private NoiseGeneratorOctaves surfaceElevationNoise;
-    public NoiseGeneratorOctaves surface;
+    private final NoiseGeneratorOctaves minLimit;
+    private final NoiseGeneratorOctaves maxLimit;
+    private final NoiseGeneratorOctaves mainLimit;
+    private final NoiseGeneratorOctaves shoresBottomComposition;
+    private final NoiseGeneratorOctaves surfaceElevation;
+    public NoiseGeneratorOctaves scale;
     public NoiseGeneratorOctaves depth;
-    public NoiseGeneratorOctaves field_920_c;
+    public NoiseGeneratorOctaves forest;
 
     public GenerateChunk(long worldSeed) {
        // this.biomeGenerationInstance = new BiomeGeneration(worldSeed);
@@ -53,10 +53,10 @@ public class GenerateChunk {
         maxLimit = new NoiseGeneratorOctaves(worldRandom, 16);
         mainLimit = new NoiseGeneratorOctaves(worldRandom, 8);
         shoresBottomComposition = new NoiseGeneratorOctaves(worldRandom, 4);
-        surfaceElevationNoise = new NoiseGeneratorOctaves(worldRandom, 4);
-        surface = new NoiseGeneratorOctaves(worldRandom, 10);
+        surfaceElevation = new NoiseGeneratorOctaves(worldRandom, 4);
+        scale = new NoiseGeneratorOctaves(worldRandom, 10);
         depth = new NoiseGeneratorOctaves(worldRandom, 16);
-        field_920_c = new NoiseGeneratorOctaves(worldRandom, 8);
+        forest = new NoiseGeneratorOctaves(worldRandom, 8);
     }
 
     public byte[] provideChunk(int chunkX, int chunkZ, Boolean fast, BiomeGeneration biomeGenerationInstance,BiomesBase[] biomesForGeneration) {
@@ -80,7 +80,7 @@ public class GenerateChunk {
         double d1 = 684.41200000000003D;
         double[] temperature = biomeGenerationInstance.temperature;
         double[] humidity = biomeGenerationInstance.humidity;
-        surfaceNoise = surface.generateFixedNoise(surfaceNoise, x, z, 5, 5, 1.121D, 1.121D);
+        surfaceNoise = scale.generateFixedNoise(surfaceNoise, x, z, 5, 5, 1.121D, 1.121D);
         depthNoise = depth.generateFixedNoise(depthNoise, x, z, 5, 5, 200D, 200D);
         mainLimitPerlinNoise = mainLimit.generateNoise(mainLimitPerlinNoise, x, 0, z, 5, 17, 5, d / 80D, d1 / 160D, d / 80D);
         minLimitPerlinNoise = minLimit.generateNoise(minLimitPerlinNoise, x, 0, z, 5, 17, 5, d, d1, d);
@@ -235,7 +235,7 @@ public class GenerateChunk {
         double noiseFactor = 0.03125D;
         sandFields = shoresBottomComposition.generateNoise(sandFields, i * 16, j * 16, 0.0D, 16, 16, 1, noiseFactor, noiseFactor, 1.0D);
         gravelField = shoresBottomComposition.generateNoise(gravelField, j * 16, 109.0134D, i * 16, 16, 1, 16, noiseFactor, 1.0D, noiseFactor);
-        heightField = surfaceElevationNoise.generateNoise(heightField, i * 16, j * 16, 0.0D, 16, 16, 1, noiseFactor * 2D, noiseFactor * 2D, noiseFactor * 2D);
+        heightField = surfaceElevation.generateNoise(heightField, i * 16, j * 16, 0.0D, 16, 16, 1, noiseFactor * 2D, noiseFactor * 2D, noiseFactor * 2D);
 
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
