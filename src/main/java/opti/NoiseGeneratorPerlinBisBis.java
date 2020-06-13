@@ -34,14 +34,6 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
         return a + x * (b - a);
     }
 
-    public final double grad2D(int hash, double x, double z) {
-        int j = hash & 0xf;
-        double d2 = (double) (1 - ((j & 8) >> 3)) * x;
-        double d3 = j >= 4 ? j != 12 && j != 14 ? z : x : 0.0D;
-        return ((j & 1) != 0 ? -d2 : d2) + ((j & 2) != 0 ? -d3 : d3);
-    }
-
-
     public final double grad(int hash, double x, double y, double z) {
         switch (hash & 0xF) {
             case 0x0:
@@ -81,9 +73,8 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
         }
     }
 
-    //we care only about 315 332 400 417 316 333 401 and 418
+    //we care only about 60-61, 77-78, 145-146, 162-163, 230-231, 247-248, 315-316, 332-333, 400-401, 417-418
     public void generatePermutations(double[] buffer, double x, double y, double z, int sizeX, int sizeY, int sizeZ, double noiseFactorX, double noiseFactorY, double noiseFactorZ, double octaveSize) {
-        int columnIndex = 0;
         double octaveWidth = 1.0D / octaveSize;
         int i2 = -1;
         double x1 = 0.0D;
@@ -92,10 +83,10 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
         double xx2 = 0.0D;
         double t;
         double w;
-        columnIndex=306; // 3*5*17+3*17
-        int[] possibleX={3,3,4,4};
-        int[] possibleZ={3,4,3,4};
-        for (int index = 0; index < 4; index++) {
+        int columnIndex=51; // possibleX[0]*5*17+3*17
+        int[] possibleX={0,0,1,1,2,2,3,3,4,4};
+        int[] possibleZ={3,4,3,4,3,4,3,4,3,4};
+        for (int index = 0; index < possibleX.length; index++) {
             double xCoord = (x + (double) possibleX[index]) * noiseFactorX + xCoord_03;
             int clampedXcoord = (int) xCoord;
             if (xCoord < (double) clampedXcoord) {
@@ -149,7 +140,7 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
             if (index%2==0){
                 columnIndex+=6; // 6 to complete Y
             }else{
-                columnIndex+=51+6; // 3*17+6 on X + complete Y
+                columnIndex+=possibleZ[0]*17+6; // 3*17 on Z +6 complete Y
             }
         }
     }

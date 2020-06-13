@@ -21,16 +21,18 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
+        benchmark();
+        //new Main("defaultTest.txt",99 ).compare();
+    }
+
+    public static void benchmark(){
         Random random = new Random();
         for (int i = 0; i < 256; i++) {
             long seed=random.nextLong();
             testEquality(seed);
             evaluateSpeed(seed);
         }
-       // evaluateSpeed(2518515);
     }
-
-
     public static void evaluateSpeed(long seed) {
         Main main = new Main("test.txt", -1);
         long time1 = 0;
@@ -123,13 +125,14 @@ public class Main implements Runnable {
             if (skipIt) {
                 continue;
             }
-            GenerateChunk generateChunk = new GenerateChunk(seed);
-            byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, Boolean.FALSE, biomeGenerationInstance, biomesForGeneration);
+            GenerateChunkBis generateChunk = new GenerateChunkBis(seed);
+            byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, biomeGenerationInstance, biomesForGeneration);
             boolean flag = true;
             for (int z = 0; z < mapWat.length; z++) {
                 int pos = 128 * ind * 16 + 128 * (z + OFFSET);
                 int y;
                 for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
+                System.out.println(y+1);
                 if ((y + 1) != mapWat[z]) {
                     flag = false;
                     break;
@@ -145,9 +148,9 @@ public class Main implements Runnable {
 
     public void debug() {
         Boolean fast = Boolean.FALSE;
-        int chunkX = 0;
+        int chunkX = 6;
         int chunkZ = -3;
-        long seed = 10;
+        long seed = 66697851806768L;
 
         BiomesBase[] biomesForGeneration = null;
         BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
@@ -156,8 +159,8 @@ public class Main implements Runnable {
             System.out.print(biomesBase.name + " ");
         }
         System.out.println();
-        GenerateChunk generateChunk = new GenerateChunk(seed);
-        byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, fast, biomeGenerationInstance, biomesForGeneration);
+        GenerateChunkBis generateChunk = new GenerateChunkBis(seed);
+        byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, biomeGenerationInstance, biomesForGeneration);
         if (fast) {
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
@@ -184,7 +187,7 @@ public class Main implements Runnable {
         BiomesBase[] biomesForGeneration = biomeGenerationInstance.loadBiomes(null, chunkX * 16, chunkZ * 16, 16, 16);
         GenerateChunk generateChunk = new GenerateChunk(seed);
         byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, false, biomeGenerationInstance, biomesForGeneration);
-        for (int x = 12; x < 16; x++) {
+        for (int x = 0; x < 16; x++) {
             for (int z = 12; z < 16; z++) {
                 int pos = 128 * 16 * x + 128 * z;
                 int y;
@@ -201,7 +204,7 @@ public class Main implements Runnable {
         BiomesBase[] biomesForGeneration = biomeGenerationInstance.loadBiomes(null, chunkX * 16, chunkZ * 16, 16, 16);
         GenerateChunkBis generateChunkbis = new GenerateChunkBis(seed);
         byte[] chunkbis = generateChunkbis.provideChunk(chunkX, chunkZ, biomeGenerationInstance, biomesForGeneration);
-        for (int x = 12; x < 16; x++) {
+        for (int x = 0; x < 16; x++) {
             for (int z = 12; z < 16; z++) {
                 int pos = 128 * 16 * x + 128 * z;
                 int y;

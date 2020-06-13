@@ -149,6 +149,7 @@ public class GenerateChunk {
                         double normalizedColumn = (float) (column - 13) / 3F;
                         limit = limit * (1.0D - normalizedColumn) + -10D * normalizedColumn; // reduced limit
                     }
+                    //System.out.println(columnCounter+" "+limit+" "+minLimit+" "+mainLimit+" "+maxLimit);
                     NoiseColumn[columnCounter] = limit;
                     columnCounter++;
                 }

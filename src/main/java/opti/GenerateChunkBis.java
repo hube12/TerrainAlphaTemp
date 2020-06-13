@@ -1,7 +1,9 @@
 package opti;
+
 import main.BiomeGeneration;
 import main.BiomesBase;
 import main.Random;
+
 public class GenerateChunkBis {
     private final Random worldRandom;
     private BiomesBase[] biomesForGeneration;
@@ -67,7 +69,14 @@ public class GenerateChunkBis {
 
 
     private double[] fillNoiseColumn(double[] NoiseColumn, int x, int z) {
-        // we only need 315 332 400 417 316 333 401 and 418
+        // we only need
+        // (60, 77, 145, 162, 61, 78, 146, 163)
+        // (145, 162, 230, 247, 146, 163, 231, 248)
+        // (230, 247, 315, 332, 231, 248, 316, 333)
+        // (315, 332, 400, 417, 316, 333, 401, 418)
+        // which is only 60-61, 77-78, 145-146, 162-163, 230-231, 247-248, 315-316, 332-333, 400-401, 417-418 // so 20
+        // or as cellCounter 3,4,8,9,13,14,18,19,23,24
+        // or as x indices 1 2 3 4 5 and fixed z to 3-4
         // 5 is the cellsize here and 17 the column size, they are inlined constants
         if (NoiseColumn == null) {
             NoiseColumn = new double[5 * 17 * 5];
@@ -76,19 +85,18 @@ public class GenerateChunkBis {
         double d1 = 684.41200000000003D;
         double[] temperature = biomeGenerationInstance.temperature;
         double[] humidity = biomeGenerationInstance.humidity;
-        // this is super fast (but we only care about 18,19,23,24)
+        // this is super fast (but we only care about 3,4,8,9,13,14,18,19,23,24)
         surfaceNoise = scale.generateFixedNoise(surfaceNoise, x, z, 5, 5, 1.121D, 1.121D);
         depthNoise = depth.generateFixedNoise(depthNoise, x, z, 5, 5, 200D, 200D);
 
-        // this is slow af but we care only about 315 332 400 417 316 333 401 and 418
+        // this is slow af but we care only about 60-61, 77-78, 145-146, 162-163, 230-231, 247-248, 315-316, 332-333, 400-401, 417-418
         mainLimitPerlinNoise = mainLimit.generateNoise(mainLimitPerlinNoise, x, 0, z, 5, 17, 5, d / 80D, d1 / 160D, d / 80D);
         minLimitPerlinNoise = minLimit.generateNoise(minLimitPerlinNoise, x, 0, z, 5, 17, 5, d, d1, d);
         maxLimitPerlinNoise = maxLimit.generateNoise(maxLimitPerlinNoise, x, 0, z, 5, 17, 5, d, d1, d);
-
-        int[] possibleCellCounter = {18, 19, 23, 24};
+        int[] possibleCellCounter = {3, 4, 8, 9, 13, 14, 18, 19, 23, 24};
         for (int cellCounter : possibleCellCounter) {
-            int X = cellCounter / 5 * 3 + 1;
-            int Z = cellCounter % 5 * 3 + 1; // 7 13
+            int X = (cellCounter / 5) * 3 + 1; // 1 4 7 10 13
+            int Z = (cellCounter % 5) * 3 + 1; // 7 13
             double aridityXZ = 1.0D - humidity[X * 16 + Z] * temperature[X * 16 + Z];
             aridityXZ *= aridityXZ;
             aridityXZ *= aridityXZ;
@@ -123,7 +131,7 @@ public class GenerateChunkBis {
             depth = (depth * (double) 17) / 16D;
             double depthColumn = (double) 17 / 2D + depth * 4D;
 
-            for (int column = 9; column < 11; column++) { // we only care at pos 9 and 10 in the column
+            for (int column = 9; column < 11; column++) { // we only care at pos 9 and 10 in the column so 2 times
                 int columnCounter = cellCounter * 17 + column;
                 double limit;
                 double columnPerSurface = (((double) column - depthColumn) * 12D) / surface;
@@ -141,6 +149,7 @@ public class GenerateChunkBis {
                     limit = minLimit + (maxLimit - minLimit) * mainLimit; // interpolation
                 }
                 limit -= columnPerSurface;
+               // System.out.println(columnCounter+" "+limit+" "+minLimit+" "+mainLimit+" "+maxLimit);
                 NoiseColumn[columnCounter] = limit;
             }
 
@@ -149,58 +158,69 @@ public class GenerateChunkBis {
     }
 
     public void generateTerrain(int chunkX, int chunkZ, byte[] chunkCache, double[] temperatures) {
-        byte amplification = 4;
+        byte quadrant = 4;
         byte columnSize = 17;
         int cellsize = 5;
         double interpFirstOctave = 0.125D;
         double interpSecondOctave = 0.25D;
         double interpThirdOctave = 0.25D;
         // we only need 315 332 400 417 316 333 401 and 418
-        NoiseColumn = fillNoiseColumn(NoiseColumn, chunkX * amplification, chunkZ * amplification);
-        int x = 3;
-        int z = 3;
-        for (int height = 9; height < 10; height++) {
-            //int off_0_0 = 18; // should only take care of 3*5+3=18
-            //int off_0_1 = 19; // should only take care of 3*5+3+1=19
-            //int off_1_0 = 23; // should only take care of 4*5+3=23
-            //int off_1_1 = 24; // should only take care of 4*5+3+1=24
-            double firstNoise_0_0 = NoiseColumn[315]; // should only take care of 18*17+9=315
-            double firstNoise_0_1 = NoiseColumn[332]; // should only take care of 19*17+9=332
-            double firstNoise_1_0 = NoiseColumn[400]; // should only take care of 23*17+9=400
-            double firstNoise_1_1 = NoiseColumn[417]; // should only take care of 24*17+9=417
-            double stepFirstNoise_0_0 = (NoiseColumn[316] - firstNoise_0_0) * interpFirstOctave;
-            double stepFirstNoise_0_1 = (NoiseColumn[333] - firstNoise_0_1) * interpFirstOctave;
-            double stepFirstNoise_1_0 = (NoiseColumn[401] - firstNoise_1_0) * interpFirstOctave;
-            double stepFirstNoise_1_1 = (NoiseColumn[418] - firstNoise_1_1) * interpFirstOctave;
-            for (int heightOffset = 0; heightOffset < 8; heightOffset++) {
-                double secondNoise_0_0 = firstNoise_0_0;
-                double secondNoise_0_1 = firstNoise_0_1;
-                double stepSecondNoise_1_0 = (firstNoise_1_0 - firstNoise_0_0) * interpSecondOctave;
-                double stepSecondNoise_1_1 = (firstNoise_1_1 - firstNoise_0_1) * interpSecondOctave;
-                for (int xOffset = 0; xOffset < 4; xOffset++) {
-                    int currentHeight = height * 8 + heightOffset;
-                    int index = xOffset + x * 4 << 11 | z * 4 << 7 | currentHeight;
-                    double stoneLimit = secondNoise_0_0; // aka thirdNoise
-                    double stepThirdNoise_0_1 = (secondNoise_0_1 - secondNoise_0_0) * interpThirdOctave;
-                    for (int zOffset = 0; zOffset < 4; zOffset++) {
-                        Blocks blockType = Blocks.AIR;
-                        if (stoneLimit > 0.0D) { //3d perlin condition
-                            blockType = Blocks.STONE;
+        NoiseColumn = fillNoiseColumn(NoiseColumn, chunkX * quadrant, chunkZ * quadrant);
+        for (int x = 0; x < quadrant; x++) {
+            int z = 3;
+            for (int height = 9; height < 10; height++) {
+                int off_0_0 = x * cellsize + z;
+                int off_0_1 = x * cellsize + (z + 1);
+                int off_1_0 = (x + 1) * cellsize + z;
+                int off_1_1 = (x + 1) * cellsize + (z + 1);
+                double firstNoise_0_0 = NoiseColumn[(off_0_0) * columnSize + (height)];
+                double firstNoise_0_1 = NoiseColumn[(off_0_1) * columnSize + (height)];
+                double firstNoise_1_0 = NoiseColumn[off_1_0 * columnSize + (height)];
+                double firstNoise_1_1 = NoiseColumn[off_1_1 * columnSize + (height)];
+                double stepFirstNoise_0_0 = (NoiseColumn[(off_0_0) * columnSize + (height + 1)] - firstNoise_0_0) * interpFirstOctave;
+                double stepFirstNoise_0_1 = (NoiseColumn[(off_0_1) * columnSize + (height + 1)] - firstNoise_0_1) * interpFirstOctave;
+                double stepFirstNoise_1_0 = (NoiseColumn[off_1_0 * columnSize + (height + 1)] - firstNoise_1_0) * interpFirstOctave;
+                double stepFirstNoise_1_1 = (NoiseColumn[off_1_1 * columnSize + (height + 1)] - firstNoise_1_1) * interpFirstOctave;
+
+                //double firstNoise_0_0 = NoiseColumn[(x * cellsize + 3) * 17 + 9]; // should only take care of (x*5+3)*17+9
+               //double firstNoise_0_1 = NoiseColumn[(x * cellsize + 4) * 17 + 9]; // should only take care of (x*5+4)*17+9
+               //double firstNoise_1_0 = NoiseColumn[((x + 1) * cellsize + 3) * 17 + 9]; // should only take care of ((x+1)*5+3)*17+9
+               //double firstNoise_1_1 = NoiseColumn[((x + 1) * cellsize + 4) * 17 + 9]; // should only take care of ((x+1)*5+)*17+9
+               //double stepFirstNoise_0_0 = (NoiseColumn[(x * cellsize + 3) * 17 + 10] - firstNoise_0_0) * interpFirstOctave;
+               //double stepFirstNoise_0_1 = (NoiseColumn[(x * cellsize + 4) * 17 + 10] - firstNoise_0_1) * interpFirstOctave;
+               //double stepFirstNoise_1_0 = (NoiseColumn[((x + 1) * cellsize + 3) * 17 + 10] - firstNoise_1_0) * interpFirstOctave;
+               //double stepFirstNoise_1_1 = (NoiseColumn[((x + 1) * cellsize + 4) * 17 + 10] - firstNoise_1_1) * interpFirstOctave;
+                for (int heightOffset = 0; heightOffset < 8; heightOffset++) {
+                    double secondNoise_0_0 = firstNoise_0_0;
+                    double secondNoise_0_1 = firstNoise_0_1;
+                    double stepSecondNoise_1_0 = (firstNoise_1_0 - firstNoise_0_0) * interpSecondOctave;
+                    double stepSecondNoise_1_1 = (firstNoise_1_1 - firstNoise_0_1) * interpSecondOctave;
+                    for (int xOffset = 0; xOffset < 4; xOffset++) {
+                        int currentHeight = height * 8 + heightOffset;
+                        int index = xOffset + x * 4 << 11 | z * 4 << 7 | currentHeight;
+                        double stoneLimit = secondNoise_0_0; // aka thirdNoise
+                        double stepThirdNoise_0_1 = (secondNoise_0_1 - secondNoise_0_0) * interpThirdOctave;
+                        for (int zOffset = 0; zOffset < 4; zOffset++) {
+                            Blocks blockType = Blocks.AIR;
+                            if (stoneLimit > 0.0D) { //3d perlin condition
+                                blockType = Blocks.STONE;
+                            }
+                            chunkCache[index] = (byte) blockType.getValue();
+                            index += 128;
+                            stoneLimit += stepThirdNoise_0_1;
                         }
-                        chunkCache[index] = (byte) blockType.getValue();
-                        index += 128;
-                        stoneLimit += stepThirdNoise_0_1;
+
+                        secondNoise_0_0 += stepSecondNoise_1_0;
+                        secondNoise_0_1 += stepSecondNoise_1_1;
                     }
 
-                    secondNoise_0_0 += stepSecondNoise_1_0;
-                    secondNoise_0_1 += stepSecondNoise_1_1;
+                    firstNoise_0_0 += stepFirstNoise_0_0;
+                    firstNoise_0_1 += stepFirstNoise_0_1;
+                    firstNoise_1_0 += stepFirstNoise_1_0;
+                    firstNoise_1_1 += stepFirstNoise_1_1;
                 }
-
-                firstNoise_0_0 += stepFirstNoise_0_0;
-                firstNoise_0_1 += stepFirstNoise_0_1;
-                firstNoise_1_0 += stepFirstNoise_1_0;
-                firstNoise_1_1 += stepFirstNoise_1_1;
             }
+
         }
     }
 
