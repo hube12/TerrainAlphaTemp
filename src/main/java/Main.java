@@ -21,7 +21,7 @@ public class Main implements Runnable {
         for (int i = 0; i < 256; i++) {
             long seed=random.nextLong();
             testEquality(seed);
-            //evaluateSpeed(seed);
+            evaluateSpeed(seed);
         }
        // evaluateSpeed(2518515);
     }
@@ -72,7 +72,7 @@ public class Main implements Runnable {
                 List<Integer> res1 = main.original(seed, x, z);
                 List<Integer> res2 = main.newOne(seed, x, z);
                 for (int i = 0; i < res1.size(); i++) {
-                    if (!res1.get(i).equals(res2.get(i))){// && res1.get(i)>=73 && res1.get(i)<=79) {
+                    if (!res1.get(i).equals(res2.get(i)) && res1.get(i)>=73 && res1.get(i)<=79) {
                         System.out.printf("Different for x:%d z:%d at index %d with original value %d and new value %d\n", x, z, i, res1.get(i), res2.get(i));
                     }
                 }
@@ -180,8 +180,8 @@ public class Main implements Runnable {
         BiomesBase[] biomesForGeneration = biomeGenerationInstance.loadBiomes(null, chunkX * 16, chunkZ * 16, 16, 16);
         GenerateChunk generateChunk = new GenerateChunk(seed);
         byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, false, biomeGenerationInstance, biomesForGeneration);
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
+        for (int x = 12; x < 16; x++) {
+            for (int z = 12; z < 16; z++) {
                 int pos = 128 * 16 * x + 128 * z;
                 int y;
                 for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
@@ -195,10 +195,10 @@ public class Main implements Runnable {
         List<Integer> res = new ArrayList<>();
         BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
         BiomesBase[] biomesForGeneration = biomeGenerationInstance.loadBiomes(null, chunkX * 16, chunkZ * 16, 16, 16);
-        GenerateChunkBisPerlin generateChunkbis = new GenerateChunkBisPerlin(seed);
-        byte[] chunkbis = generateChunkbis.provideChunk(chunkX, chunkZ, false, biomeGenerationInstance, biomesForGeneration);
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
+        GenerateChunkBis generateChunkbis = new GenerateChunkBis(seed);
+        byte[] chunkbis = generateChunkbis.provideChunk(chunkX, chunkZ, biomeGenerationInstance, biomesForGeneration);
+        for (int x = 12; x < 16; x++) {
+            for (int z = 12; z < 16; z++) {
                 int pos = 128 * 16 * x + 128 * z;
                 int y;
                 for (y = 127; y >= 0 && chunkbis[pos + y] == 0; y--) ;
@@ -231,7 +231,7 @@ public class Main implements Runnable {
         }
         System.out.println("--------");
         GenerateChunkBis generateChunkbis = new GenerateChunkBis(seed);
-        byte[] chunkbis = generateChunkbis.provideChunk(chunkX, chunkZ, false, biomeGenerationInstance, biomesForGeneration);
+        byte[] chunkbis = generateChunkbis.provideChunk(chunkX, chunkZ, biomeGenerationInstance, biomesForGeneration);
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int pos = 128 * 16 * x + 128 * z;
