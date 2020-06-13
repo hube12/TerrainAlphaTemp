@@ -92,10 +92,11 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
         double xx2 = 0.0D;
         double t;
         double w;
-        columnIndex=306;
-        int[] possibleXZ={3,4};
-        for (int X : possibleXZ) { // start at 3*5*17+3*17=306
-            double xCoord = (x + (double) X) * noiseFactorX + xCoord_03;
+        columnIndex=306; // 3*5*17+3*17
+        int[] possibleX={3,3,4,4};
+        int[] possibleZ={3,4,3,4};
+        for (int index = 0; index < 4; index++) {
+            double xCoord = (x + (double) possibleX[index]) * noiseFactorX + xCoord_03;
             int clampedXcoord = (int) xCoord;
             if (xCoord < (double) clampedXcoord) {
                 clampedXcoord--;
@@ -105,56 +106,51 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
             t = xCoord * 6D - 15D;
             w = (xCoord * t + 10D);
             double fadeX = xCoord * xCoord * xCoord * w;
-            for (int Z : possibleXZ) {
-                double zCoord = (z + (double) Z) * noiseFactorZ + zCoord_03;
-                int clampedZCoord = (int) zCoord;
-                if (zCoord < (double) clampedZCoord) {
-                    clampedZCoord--;
-                }
-                int zBottoms = clampedZCoord & 0xff;
-                zCoord -= clampedZCoord;
-                t = zCoord * 6D - 15D;
-                w = (zCoord * t + 10D);
-                double fadeZ = zCoord * zCoord * zCoord * w;
-                columnIndex+=0;
-                //we care only about 315 332 400 417 316 333 401 and 418 but we cannot reduce it because fucking notch though of an "optimization"
-                for (int Y = 0; Y < 11; Y++) {
-
-                    // ZCoord
-                    double yCoords = (y + (double) Y) * noiseFactorY + yCoord_03;
-                    int clampedYCoords = (int) yCoords;
-                    if (yCoords < (double) clampedYCoords) {
-                        clampedYCoords--;
-                    }
-                    int yBottoms = clampedYCoords & 0xff;
-                    yCoords -= clampedYCoords;
-                    t = yCoords * 6D - 15D;
-                    w = yCoords * t + 10D;
-                    double fadeY = yCoords * yCoords * yCoords * w;
-                    // ZCoord
-
-                    if (Y == 0 || yBottoms != i2) { // this is wrong on so many levels, same ybottoms doesnt mean x and z were the same...
-                        i2 = yBottoms;
-                        int k2 = permutations[permutations[xBottoms] + yBottoms] + zBottoms;
-                        int l2 = permutations[permutations[xBottoms] + yBottoms + 1] + zBottoms;
-                        int k3 = permutations[permutations[xBottoms + 1] + yBottoms] + zBottoms;
-                        int l3 = permutations[permutations[xBottoms + 1] + yBottoms + 1] + zBottoms;
-                        x1 = lerp(fadeX, grad(permutations[k2], xCoord, yCoords, zCoord), grad(permutations[k3], xCoord - 1.0D, yCoords, zCoord));
-                        x2 = lerp(fadeX, grad(permutations[l2], xCoord, yCoords - 1.0D, zCoord), grad(permutations[l3], xCoord - 1.0D, yCoords - 1.0D, zCoord));
-                        xx1 = lerp(fadeX, grad(permutations[k2 + 1], xCoord, yCoords, zCoord - 1.0D), grad(permutations[k3 + 1], xCoord - 1.0D, yCoords, zCoord - 1.0D));
-                        xx2 = lerp(fadeX, grad(permutations[l2 + 1], xCoord, yCoords - 1.0D, zCoord - 1.0D), grad(permutations[l3 + 1], xCoord - 1.0D, yCoords - 1.0D, zCoord - 1.0D));
-                    }
-                    double y1 = lerp(fadeY, x1, x2);
-                    double y2 = lerp(fadeY, xx1, xx2);
-                    buffer[columnIndex] += lerp(fadeZ, y1, y2) * octaveWidth;
-                    columnIndex++;
-                }
-                columnIndex+=6;
+            double zCoord = (z + (double)  possibleZ[index]) * noiseFactorZ + zCoord_03;
+            int clampedZCoord = (int) zCoord;
+            if (zCoord < (double) clampedZCoord) {
+                clampedZCoord--;
             }
-            columnIndex+=3*17;
+            int zBottoms = clampedZCoord & 0xff;
+            zCoord -= clampedZCoord;
+            t = zCoord * 6D - 15D;
+            w = (zCoord * t + 10D);
+            double fadeZ = zCoord * zCoord * zCoord * w;
+            for (int Y = 0; Y < 11; Y++) { // we cannot limit on lower bound without some issues later
+                // ZCoord
+                double yCoords = (y + (double) Y) * noiseFactorY + yCoord_03;
+                int clampedYCoords = (int) yCoords;
+                if (yCoords < (double) clampedYCoords) {
+                    clampedYCoords--;
+                }
+                int yBottoms = clampedYCoords & 0xff;
+                yCoords -= clampedYCoords;
+                t = yCoords * 6D - 15D;
+                w = yCoords * t + 10D;
+                double fadeY = yCoords * yCoords * yCoords * w;
+                // ZCoord
+
+                if (Y == 0 || yBottoms != i2) { // this is wrong on so many levels, same ybottoms doesnt mean x and z were the same...
+                    i2 = yBottoms;
+                    int k2 = permutations[permutations[xBottoms] + yBottoms] + zBottoms;
+                    int l2 = permutations[permutations[xBottoms] + yBottoms + 1] + zBottoms;
+                    int k3 = permutations[permutations[xBottoms + 1] + yBottoms] + zBottoms;
+                    int l3 = permutations[permutations[xBottoms + 1] + yBottoms + 1] + zBottoms;
+                    x1 = lerp(fadeX, grad(permutations[k2], xCoord, yCoords, zCoord), grad(permutations[k3], xCoord - 1.0D, yCoords, zCoord));
+                    x2 = lerp(fadeX, grad(permutations[l2], xCoord, yCoords - 1.0D, zCoord), grad(permutations[l3], xCoord - 1.0D, yCoords - 1.0D, zCoord));
+                    xx1 = lerp(fadeX, grad(permutations[k2 + 1], xCoord, yCoords, zCoord - 1.0D), grad(permutations[k3 + 1], xCoord - 1.0D, yCoords, zCoord - 1.0D));
+                    xx2 = lerp(fadeX, grad(permutations[l2 + 1], xCoord, yCoords - 1.0D, zCoord - 1.0D), grad(permutations[l3 + 1], xCoord - 1.0D, yCoords - 1.0D, zCoord - 1.0D));
+                }
+                double y1 = lerp(fadeY, x1, x2);
+                double y2 = lerp(fadeY, xx1, xx2);
+                buffer[columnIndex] += lerp(fadeZ, y1, y2) * octaveWidth;
+                columnIndex++;
+            }
+            if (index%2==0){
+                columnIndex+=6; // 6 to complete Y
+            }else{
+                columnIndex+=51+6; // 3*17+6 on X + complete Y
+            }
         }
-
     }
-
-
 }
