@@ -1,14 +1,15 @@
+package main;
+
 import java.util.Arrays;
 
-public class NoiseGeneratorOctavesBis extends NoiseGenerator {
-    private final NoiseGeneratorPerlinBis[] noiseArray;
-    private final int octaves;
 
-    public NoiseGeneratorOctavesBis(Random random, int nbOctaves) {
+public class NoiseGeneratorOctaves extends NoiseGenerator {
+
+    public NoiseGeneratorOctaves(Random random, int nbOctaves) {
         octaves = nbOctaves;
-        noiseArray = new NoiseGeneratorPerlinBis[nbOctaves];
+        noiseArray = new NoiseGeneratorPerlin[nbOctaves];
         for (int octave = 0; octave < nbOctaves; octave++) {
-            noiseArray[octave] = new NoiseGeneratorPerlinBis(random);
+            noiseArray[octave] = new NoiseGeneratorPerlin(random);
         }
 
     }
@@ -33,5 +34,6 @@ public class NoiseGeneratorOctavesBis extends NoiseGenerator {
         return generateNoise(buffer, x, 10D, z, sizeX, 1, sizeZ, offsetX, 1.0D, offsetZ);
     }
 
-
+    private final NoiseGeneratorPerlin[] noiseArray;
+    private final int octaves;
 }

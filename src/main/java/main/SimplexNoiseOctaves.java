@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Arrays;
 
 public class SimplexNoiseOctaves extends NoiseGenerator {

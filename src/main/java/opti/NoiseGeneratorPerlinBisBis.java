@@ -1,14 +1,16 @@
+package opti;
+import main.NoiseGenerator;
+import main.Random;
 
 
-
-public class NoiseGeneratorPerlinBis extends NoiseGenerator {
+public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
 
     private final int[] permutations;
     public double xCoord_03;
     public double yCoord_03;
     public double zCoord_03;
 
-    public NoiseGeneratorPerlinBis(Random random) {
+    public NoiseGeneratorPerlinBisBis(Random random) {
         permutations = new int[512];
         xCoord_03 = random.nextDouble() * 256D;
         yCoord_03 = random.nextDouble() * 256D;
@@ -79,40 +81,9 @@ public class NoiseGeneratorPerlinBis extends NoiseGenerator {
         }
     }
 
-
+    //we care only about 315 332 400 417 316 333 401 and 418
     public void generatePermutations(double[] buffer, double x, double y, double z, int sizeX, int sizeY, int sizeZ, double noiseFactorX, double noiseFactorY, double noiseFactorZ, double octaveSize) {
-        if (sizeY == 1) {
-            int index = 0;
-            double octaveWidth = 1.0D / octaveSize;
-            for (int X = 0; X < sizeX; X++) {
-                double xCoord = (x + (double) X) * noiseFactorX + xCoord_03;
-                int clampedXCoord = (int) xCoord;
-                if (xCoord < (double) clampedXCoord) {
-                    clampedXCoord--;
-                }
-                int xBottoms = clampedXCoord & 0xff;
-                xCoord -= clampedXCoord;
-                double fadeX = xCoord * xCoord * xCoord * (xCoord * (xCoord * 6D - 15D) + 10D);
-                for (int Z = 0; Z < sizeZ; Z++) {
-                    double zCoord = (z + (double) Z) * noiseFactorZ + zCoord_03;
-                    int clampedZCoord = (int) zCoord;
-                    if (zCoord < (double) clampedZCoord) {
-                        clampedZCoord--;
-                    }
-                    int zBottoms = clampedZCoord & 0xff;
-                    zCoord -= clampedZCoord;
-                    double fadeZ = zCoord * zCoord * zCoord * (zCoord * (zCoord * 6D - 15D) + 10D);
-                    int hashXZ = permutations[permutations[xBottoms]] + zBottoms;
-                    int hashOffXZ = permutations[permutations[xBottoms + 1]] + zBottoms;
-                    double x1 = lerp(fadeX, grad2D(permutations[hashXZ], xCoord, zCoord), grad2D(permutations[hashOffXZ], xCoord - 1.0D, zCoord));
-                    double x2 = lerp(fadeX, grad2D(permutations[hashXZ + 1], xCoord, zCoord - 1.0D), grad2D(permutations[hashOffXZ + 1], xCoord - 1.0D, zCoord - 1.0D));
-                    double y1 = lerp(fadeZ, x1, x2);
-                    buffer[index++] += y1 * octaveWidth;
-                }
-            }
-            return;
-        }
-        int i1 = 0;
+        int columnIndex = 0;
         double octaveWidth = 1.0D / octaveSize;
         int i2 = -1;
         double x1 = 0.0D;
@@ -121,8 +92,9 @@ public class NoiseGeneratorPerlinBis extends NoiseGenerator {
         double xx2 = 0.0D;
         double t;
         double w;
-
-        for (int X = 0; X < sizeX; X++) {
+        columnIndex=306;
+        int[] possibleXZ={3,4};
+        for (int X : possibleXZ) { // start at 3*5*17+3*17=306
             double xCoord = (x + (double) X) * noiseFactorX + xCoord_03;
             int clampedXcoord = (int) xCoord;
             if (xCoord < (double) clampedXcoord) {
@@ -133,7 +105,7 @@ public class NoiseGeneratorPerlinBis extends NoiseGenerator {
             t = xCoord * 6D - 15D;
             w = (xCoord * t + 10D);
             double fadeX = xCoord * xCoord * xCoord * w;
-            for (int Z = 0; Z < sizeZ; Z++) {
+            for (int Z : possibleXZ) {
                 double zCoord = (z + (double) Z) * noiseFactorZ + zCoord_03;
                 int clampedZCoord = (int) zCoord;
                 if (zCoord < (double) clampedZCoord) {
@@ -144,7 +116,11 @@ public class NoiseGeneratorPerlinBis extends NoiseGenerator {
                 t = zCoord * 6D - 15D;
                 w = (zCoord * t + 10D);
                 double fadeZ = zCoord * zCoord * zCoord * w;
-                for (int Y = 0; Y < sizeY; Y++) {
+                columnIndex+=0;
+                //we care only about 315 332 400 417 316 333 401 and 418 but we cannot reduce it because fucking notch though of an "optimization"
+                for (int Y = 0; Y < 11; Y++) {
+
+                    // ZCoord
                     double yCoords = (y + (double) Y) * noiseFactorY + yCoord_03;
                     int clampedYCoords = (int) yCoords;
                     if (yCoords < (double) clampedYCoords) {
@@ -155,7 +131,9 @@ public class NoiseGeneratorPerlinBis extends NoiseGenerator {
                     t = yCoords * 6D - 15D;
                     w = yCoords * t + 10D;
                     double fadeY = yCoords * yCoords * yCoords * w;
-                    if (Y == 0 || yBottoms != i2) {
+                    // ZCoord
+
+                    if (Y == 0 || yBottoms != i2) { // this is wrong on so many levels, same ybottoms doesnt mean x and z were the same...
                         i2 = yBottoms;
                         int k2 = permutations[permutations[xBottoms] + yBottoms] + zBottoms;
                         int l2 = permutations[permutations[xBottoms] + yBottoms + 1] + zBottoms;
@@ -168,10 +146,14 @@ public class NoiseGeneratorPerlinBis extends NoiseGenerator {
                     }
                     double y1 = lerp(fadeY, x1, x2);
                     double y2 = lerp(fadeY, xx1, xx2);
-                    buffer[i1++] += lerp(fadeZ, y1, y2) * octaveWidth;
+                    buffer[columnIndex] += lerp(fadeZ, y1, y2) * octaveWidth;
+                    columnIndex++;
                 }
+                columnIndex+=6;
             }
+            columnIndex+=3*17;
         }
+
     }
 
 

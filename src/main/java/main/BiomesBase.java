@@ -1,3 +1,5 @@
+package main;
+
 public class BiomesBase {
     public String name;
     public int color;

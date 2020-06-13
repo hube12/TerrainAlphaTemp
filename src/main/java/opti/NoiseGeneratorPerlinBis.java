@@ -1,10 +1,16 @@
+package opti;
 
+import main.NoiseGenerator;
+import main.Random;
 
+public class NoiseGeneratorPerlinBis extends NoiseGenerator {
 
-public class NoiseGeneratorPerlin extends NoiseGenerator {
+    private final int[] permutations;
+    public double xCoord_03;
+    public double yCoord_03;
+    public double zCoord_03;
 
-
-    public NoiseGeneratorPerlin(Random random) {
+    public NoiseGeneratorPerlinBis(Random random) {
         permutations = new int[512];
         xCoord_03 = random.nextDouble() * 256D;
         yCoord_03 = random.nextDouble() * 256D;
@@ -24,40 +30,6 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
 
     }
 
-    public double generateNoise(double d, double d1, double d2) {
-        double d3 = d + xCoord_03;
-        double d4 = d1 + yCoord_03;
-        double d5 = d2 + zCoord_03;
-        int i = (int) d3;
-        int j = (int) d4;
-        int k = (int) d5;
-        if (d3 < (double) i) {
-            i--;
-        }
-        if (d4 < (double) j) {
-            j--;
-        }
-        if (d5 < (double) k) {
-            k--;
-        }
-        int l = i & 0xff;
-        int i1 = j & 0xff;
-        int j1 = k & 0xff;
-        d3 -= i;
-        d4 -= j;
-        d5 -= k;
-        double d6 = d3 * d3 * d3 * (d3 * (d3 * 6D - 15D) + 10D);
-        double d7 = d4 * d4 * d4 * (d4 * (d4 * 6D - 15D) + 10D);
-        double d8 = d5 * d5 * d5 * (d5 * (d5 * 6D - 15D) + 10D);
-        int k1 = permutations[l] + i1;
-        int l1 = permutations[k1] + j1;
-        int i2 = permutations[k1 + 1] + j1;
-        int j2 = permutations[l + 1] + i1;
-        int k2 = permutations[j2] + j1;
-        int l2 = permutations[j2 + 1] + j1;
-        return lerp(d8, lerp(d7, lerp(d6, grad(permutations[l1], d3, d4, d5), grad(permutations[k2], d3 - 1.0D, d4, d5)), lerp(d6, grad(permutations[i2], d3, d4 - 1.0D, d5), grad(permutations[l2], d3 - 1.0D, d4 - 1.0D, d5))), lerp(d7, lerp(d6, grad(permutations[l1 + 1], d3, d4, d5 - 1.0D), grad(permutations[k2 + 1], d3 - 1.0D, d4, d5 - 1.0D)), lerp(d6, grad(permutations[i2 + 1], d3, d4 - 1.0D, d5 - 1.0D), grad(permutations[l2 + 1], d3 - 1.0D, d4 - 1.0D, d5 - 1.0D))));
-    }
-
     public final double lerp(double x, double a, double b) {
         return a + x * (b - a);
     }
@@ -69,14 +41,8 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
         return ((j & 1) != 0 ? -d2 : d2) + ((j & 2) != 0 ? -d3 : d3);
     }
 
-    public final double grad(int hash, double x, double y, double z) {
-        int j = hash & 0xf;
-        double d3 = j >= 8 ? y : x;
-        double d4 = j >= 4 ? j != 12 && j != 14 ? z : x : y;
-        return ((j & 1) != 0 ? -d3 : d3) + ((j & 2) != 0 ? -d4 : d4);
-    }
 
-    public final double grad_alt(int hash, double x, double y, double z) {
+    public final double grad(int hash, double x, double y, double z) {
         switch (hash & 0xF) {
             case 0x0:
                 return x + y;
@@ -131,32 +97,21 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
                 double fadeX = xCoord * xCoord * xCoord * (xCoord * (xCoord * 6D - 15D) + 10D);
                 for (int Z = 0; Z < sizeZ; Z++) {
                     double zCoord = (z + (double) Z) * noiseFactorZ + zCoord_03;
-                    int campledZCoord = (int) zCoord;
-                    if (zCoord < (double) campledZCoord) {
-                        campledZCoord--;
+                    int clampedZCoord = (int) zCoord;
+                    if (zCoord < (double) clampedZCoord) {
+                        clampedZCoord--;
                     }
-                    int zBottoms = campledZCoord & 0xff;
-                    zCoord -= campledZCoord;
+                    int zBottoms = clampedZCoord & 0xff;
+                    zCoord -= clampedZCoord;
                     double fadeZ = zCoord * zCoord * zCoord * (zCoord * (zCoord * 6D - 15D) + 10D);
-                    /*
-                     int aaa, aba, aab, abb, baa, bba, bab, bbb;
-                        aaa = p[p[    xi ]+   yi ];
-                        aba = p[p[    xi ]+ ++yi ];
-                        bab = p[p[  ++xi ]+   yi ];
-                        bbb = p[p[  ++xi ]+ ++yi ];
-                     */
-                    int hashX = permutations[xBottoms];
-                    int hashXZ = permutations[hashX] + zBottoms;
-                    int hashOffX = permutations[xBottoms + 1];
-                    int hashOffXZ = permutations[hashOffX] + zBottoms;
-                    double x1 = lerp(fadeX, grad2D(permutations[hashXZ], xCoord, zCoord), grad(permutations[hashOffXZ], xCoord - 1.0D, 0.0D, zCoord));
-                    double x2 = lerp(fadeX, grad(permutations[hashXZ + 1], xCoord, 0.0D, zCoord - 1.0D), grad(permutations[hashOffXZ + 1], xCoord - 1.0D, 0.0D, zCoord - 1.0D));
+                    int hashXZ = permutations[permutations[xBottoms]] + zBottoms;
+                    int hashOffXZ = permutations[permutations[xBottoms + 1]] + zBottoms;
+                    double x1 = lerp(fadeX, grad2D(permutations[hashXZ], xCoord, zCoord), grad2D(permutations[hashOffXZ], xCoord - 1.0D, zCoord));
+                    double x2 = lerp(fadeX, grad2D(permutations[hashXZ + 1], xCoord, zCoord - 1.0D), grad2D(permutations[hashOffXZ + 1], xCoord - 1.0D, zCoord - 1.0D));
                     double y1 = lerp(fadeZ, x1, x2);
                     buffer[index++] += y1 * octaveWidth;
                 }
-
             }
-
             return;
         }
         int i1 = 0;
@@ -166,6 +121,9 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
         double x2 = 0.0D;
         double xx1 = 0.0D;
         double xx2 = 0.0D;
+        double t;
+        double w;
+
         for (int X = 0; X < sizeX; X++) {
             double xCoord = (x + (double) X) * noiseFactorX + xCoord_03;
             int clampedXcoord = (int) xCoord;
@@ -174,7 +132,9 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
             }
             int xBottoms = clampedXcoord & 0xff;
             xCoord -= clampedXcoord;
-            double fadeX = xCoord * xCoord * xCoord * (xCoord * (xCoord * 6D - 15D) + 10D);
+            t = xCoord * 6D - 15D;
+            w = (xCoord * t + 10D);
+            double fadeX = xCoord * xCoord * xCoord * w;
             for (int Z = 0; Z < sizeZ; Z++) {
                 double zCoord = (z + (double) Z) * noiseFactorZ + zCoord_03;
                 int clampedZCoord = (int) zCoord;
@@ -183,7 +143,9 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
                 }
                 int zBottoms = clampedZCoord & 0xff;
                 zCoord -= clampedZCoord;
-                double fadeZ = zCoord * zCoord * zCoord * (zCoord * (zCoord * 6D - 15D) + 10D);
+                t = zCoord * 6D - 15D;
+                w = (zCoord * t + 10D);
+                double fadeZ = zCoord * zCoord * zCoord * w;
                 for (int Y = 0; Y < sizeY; Y++) {
                     double yCoords = (y + (double) Y) * noiseFactorY + yCoord_03;
                     int clampedYCoords = (int) yCoords;
@@ -192,26 +154,15 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
                     }
                     int yBottoms = clampedYCoords & 0xff;
                     yCoords -= clampedYCoords;
-                    double fadeY = yCoords * yCoords * yCoords * (yCoords * (yCoords * 6D - 15D) + 10D);
+                    t = yCoords * 6D - 15D;
+                    w = yCoords * t + 10D;
+                    double fadeY = yCoords * yCoords * yCoords * w;
                     if (Y == 0 || yBottoms != i2) {
                         i2 = yBottoms;
-                         /*
-                        int aaa, aba, aab, abb, baa, bba, bab, bbb;
-                        aaa = p[p[p[    xi ]+   yi ]+   zi ];
-                        aba = p[p[p[    xi ]+ ++yi ]+   zi ];
-                        aab = p[p[p[    xi ]+   yi ]+ ++zi ];
-                        abb = p[p[p[    xi ]+ ++yi ]+ ++zi ];
-                        baa = p[p[p[  ++xi ]+   yi ]+   zi ];
-                        bba = p[p[p[  ++xi ]+ ++yi ]+   zi ];
-                        bab = p[p[p[  ++xi ]+   yi ]+ ++zi ];
-                        bbb = p[p[p[  ++xi ]+ ++yi ]+ ++zi ];
-                     */
-                        int j2 = permutations[xBottoms] + yBottoms;
-                        int k2 = permutations[j2] + zBottoms;
-                        int l2 = permutations[j2 + 1] + zBottoms;
-                        int i3 = permutations[xBottoms + 1] + yBottoms;
-                        int k3 = permutations[i3] + zBottoms;
-                        int l3 = permutations[i3 + 1] + zBottoms;
+                        int k2 = permutations[permutations[xBottoms] + yBottoms] + zBottoms;
+                        int l2 = permutations[permutations[xBottoms] + yBottoms + 1] + zBottoms;
+                        int k3 = permutations[permutations[xBottoms + 1] + yBottoms] + zBottoms;
+                        int l3 = permutations[permutations[xBottoms + 1] + yBottoms + 1] + zBottoms;
                         x1 = lerp(fadeX, grad(permutations[k2], xCoord, yCoords, zCoord), grad(permutations[k3], xCoord - 1.0D, yCoords, zCoord));
                         x2 = lerp(fadeX, grad(permutations[l2], xCoord, yCoords - 1.0D, zCoord), grad(permutations[l3], xCoord - 1.0D, yCoords - 1.0D, zCoord));
                         xx1 = lerp(fadeX, grad(permutations[k2 + 1], xCoord, yCoords, zCoord - 1.0D), grad(permutations[k3 + 1], xCoord - 1.0D, yCoords, zCoord - 1.0D));
@@ -225,8 +176,5 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
         }
     }
 
-    private int[] permutations;
-    public double xCoord_03;
-    public double yCoord_03;
-    public double zCoord_03;
+
 }

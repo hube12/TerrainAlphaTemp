@@ -1,3 +1,5 @@
+package main;
+
 public class Random {
     private long seed;
     private static final long multiplier = 0x5DEECE66DL;
