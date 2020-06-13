@@ -1,7 +1,7 @@
 
 
 
-public class GenerateChunk {
+public class GenerateChunkBis {
     private final Random worldRandom;
     private BiomesBase[] biomesForGeneration;
     BiomeGeneration biomeGenerationInstance;
@@ -37,32 +37,32 @@ public class GenerateChunk {
     private double[] gravelField;
     private double[] heightField;
     private double[] NoiseColumn;
-    private final NoiseGeneratorOctaves minLimit;
-    private final NoiseGeneratorOctaves maxLimit;
-    private final NoiseGeneratorOctaves mainLimit;
-    private final NoiseGeneratorOctaves shoresBottomComposition;
-    private final NoiseGeneratorOctaves surfaceElevation;
-    public NoiseGeneratorOctaves scale;
-    public NoiseGeneratorOctaves depth;
-    public NoiseGeneratorOctaves forest;
+    private final NoiseGeneratorOctavesBis minLimit;
+    private final NoiseGeneratorOctavesBis maxLimit;
+    private final NoiseGeneratorOctavesBis mainLimit;
+    private final NoiseGeneratorOctavesBis shoresBottomComposition;
+    private final NoiseGeneratorOctavesBis surfaceElevation;
+    public NoiseGeneratorOctavesBis scale;
+    public NoiseGeneratorOctavesBis depth;
+    public NoiseGeneratorOctavesBis forest;
 
-    public GenerateChunk(long worldSeed) {
-       // this.biomeGenerationInstance = new BiomeGeneration(worldSeed);
+    public GenerateChunkBis(long worldSeed) {
+        // this.biomeGenerationInstance = new BiomeGeneration(worldSeed);
         worldRandom = new Random(worldSeed);
-        minLimit = new NoiseGeneratorOctaves(worldRandom, 16);
-        maxLimit = new NoiseGeneratorOctaves(worldRandom, 16);
-        mainLimit = new NoiseGeneratorOctaves(worldRandom, 8);
-        shoresBottomComposition = new NoiseGeneratorOctaves(worldRandom, 4);
-        surfaceElevation = new NoiseGeneratorOctaves(worldRandom, 4);
-        scale = new NoiseGeneratorOctaves(worldRandom, 10);
-        depth = new NoiseGeneratorOctaves(worldRandom, 16);
-        forest = new NoiseGeneratorOctaves(worldRandom, 8);
+        minLimit = new NoiseGeneratorOctavesBis(worldRandom, 16);
+        maxLimit = new NoiseGeneratorOctavesBis(worldRandom, 16);
+        mainLimit = new NoiseGeneratorOctavesBis(worldRandom, 8);
+        shoresBottomComposition = new NoiseGeneratorOctavesBis(worldRandom, 4);
+        surfaceElevation = new NoiseGeneratorOctavesBis(worldRandom, 4);
+        scale = new NoiseGeneratorOctavesBis(worldRandom, 10);
+        depth = new NoiseGeneratorOctavesBis(worldRandom, 16);
+        forest = new NoiseGeneratorOctavesBis(worldRandom, 8);
     }
 
     public byte[] provideChunk(int chunkX, int chunkZ, boolean fast, BiomeGeneration biomeGenerationInstance,BiomesBase[] biomesForGeneration) {
         worldRandom.setSeed((long) chunkX * 0x4f9939f508L + (long) chunkZ * 0x1ef1565bd5L);
         byte[] chunkCache = new byte[32768];
-       // this.biomesForGeneration=this.biomeGenerationInstance.loadBiomes(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+        // this.biomesForGeneration=this.biomeGenerationInstance.loadBiomes(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
         this.biomeGenerationInstance=biomeGenerationInstance;
         double[] temperatures = this.biomeGenerationInstance.temperature;
         byte[] heights = generateTerrain(chunkX, chunkZ, chunkCache, temperatures);
@@ -172,7 +172,7 @@ public class GenerateChunk {
         NoiseColumn = fillNoiseColumn(NoiseColumn, chunkX * amplification, chunkZ * amplification);
         for (int x = 0; x < amplification; x++) {
             for (int z = 0; z < amplification; z++) {
-                for (int height = 0; height < 16; height++) {
+                for (int height = 9; height < 10; height++) {
                     int off_0_0 = x * cellsize + z;
                     int off_0_1 = x * cellsize + (z + 1);
                     int off_1_0 = (x + 1) * cellsize + z;
@@ -196,15 +196,7 @@ public class GenerateChunk {
                             double stoneLimit = secondNoise_0_0; // aka thirdNoise
                             double stepThirdNoise_0_1 = (secondNoise_0_1 - secondNoise_0_0) * interpThirdOctave;
                             for (int zOffset = 0; zOffset < 4; zOffset++) {
-                                double temperature = temperatures[(x * 4 + xOffset) * 16 + (z * 4 + zOffset)];
                                 Blocks blockType = Blocks.AIR;
-                                if (currentHeight< seaLevel) {
-                                    if (temperature < 0.5D && currentHeight >= seaLevel - 1) { // ice on water
-                                        blockType = Blocks.ICE;
-                                    } else {
-                                        blockType = Blocks.MOVING_WATER;
-                                    }
-                                }
                                 if (stoneLimit > 0.0D) { //3d perlin condition
                                     blockType = Blocks.STONE;
                                     heights[index >> 7] = (byte)currentHeight; // set at x and z the height (0 to 127)  height * 8 + heightOffset
@@ -232,6 +224,7 @@ public class GenerateChunk {
 
     public void replaceBlockForBiomes(int i, int j, byte[] chunkCache, BiomesBase[] biomes) {
         byte oceanLevel = 64;
+        int MIN=oceanLevel;
         double noiseFactor = 0.03125D;
         sandFields = shoresBottomComposition.generateNoise(sandFields, i * 16, j * 16, 0.0D, 16, 16, 1, noiseFactor, noiseFactor, 1.0D);
         gravelField = shoresBottomComposition.generateNoise(gravelField, j * 16, 109.0134D, i * 16, 16, 1, 16, noiseFactor, 1.0D, noiseFactor);
@@ -246,13 +239,8 @@ public class GenerateChunk {
                 int state = -1;
                 byte aboveOceanAkaLand = biome.grassOrEquivalentSand;
                 byte belowOceanAkaEarthCrust = biome.dirtOrEquivalentSand;
-                for (int y = 127; y >= 0; y--) {
-
+                for (int y = 127; y >=MIN; y--) {
                     int chunkCachePos = (x * 16 + z) * 128 + y;
-                    if (y <= worldRandom.nextInt(5)) {
-                        chunkCache[chunkCachePos] = (byte) Blocks.BEDROCK.getValue();
-                        continue;
-                    }
                     byte previousBlock = chunkCache[chunkCachePos];
 
                     if (previousBlock == 0) {
@@ -266,7 +254,7 @@ public class GenerateChunk {
                         if (elevation <= 0) { // if in a deep
                             aboveOceanAkaLand = 0;
                             belowOceanAkaEarthCrust = (byte) Blocks.STONE.getValue();
-                        } else if (y >= oceanLevel - 4 && y <= oceanLevel + 1) { // if at sea level do the shore and rivers
+                        } else if (y <= oceanLevel + 1) { // if at sea level do the shore and rivers
                             aboveOceanAkaLand = biome.grassOrEquivalentSand;
                             belowOceanAkaEarthCrust = biome.dirtOrEquivalentSand;
                             if (gravelly) {
@@ -282,15 +270,9 @@ public class GenerateChunk {
                                 belowOceanAkaEarthCrust = (byte) Blocks.SAND.getValue();
                             }
                         }
-                        if (y < oceanLevel && aboveOceanAkaLand == 0) { // set deep water
-                            aboveOceanAkaLand = (byte) Blocks.MOVING_WATER.getValue();
-                        }
                         state = elevation;
-                        if (y >= oceanLevel - 1) { // above ocean level
-                            chunkCache[chunkCachePos] = aboveOceanAkaLand;
-                        } else {
-                            chunkCache[chunkCachePos] = belowOceanAkaEarthCrust;
-                        }
+                        // above ocean level
+                        chunkCache[chunkCachePos] = aboveOceanAkaLand;
                         continue;
                     }
                     if (state > 0) {
@@ -299,6 +281,10 @@ public class GenerateChunk {
 
                     }
                 }
+                for (int k = 0; k < 128; k++) {
+                    worldRandom.nextInt(5);
+                }
+
             }
         }
     }

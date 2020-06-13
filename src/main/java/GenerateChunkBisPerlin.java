@@ -1,7 +1,7 @@
 
 
 
-public class GenerateChunk {
+public class GenerateChunkBisPerlin {
     private final Random worldRandom;
     private BiomesBase[] biomesForGeneration;
     BiomeGeneration biomeGenerationInstance;
@@ -37,26 +37,26 @@ public class GenerateChunk {
     private double[] gravelField;
     private double[] heightField;
     private double[] NoiseColumn;
-    private final NoiseGeneratorOctaves minLimit;
-    private final NoiseGeneratorOctaves maxLimit;
-    private final NoiseGeneratorOctaves mainLimit;
-    private final NoiseGeneratorOctaves shoresBottomComposition;
-    private final NoiseGeneratorOctaves surfaceElevation;
-    public NoiseGeneratorOctaves scale;
-    public NoiseGeneratorOctaves depth;
-    public NoiseGeneratorOctaves forest;
+    private final NoiseGeneratorOctavesBis minLimit;
+    private final NoiseGeneratorOctavesBis maxLimit;
+    private final NoiseGeneratorOctavesBis mainLimit;
+    private final NoiseGeneratorOctavesBis shoresBottomComposition;
+    private final NoiseGeneratorOctavesBis surfaceElevation;
+    public NoiseGeneratorOctavesBis scale;
+    public NoiseGeneratorOctavesBis depth;
+    public NoiseGeneratorOctavesBis forest;
 
-    public GenerateChunk(long worldSeed) {
+    public GenerateChunkBisPerlin(long worldSeed) {
        // this.biomeGenerationInstance = new BiomeGeneration(worldSeed);
         worldRandom = new Random(worldSeed);
-        minLimit = new NoiseGeneratorOctaves(worldRandom, 16);
-        maxLimit = new NoiseGeneratorOctaves(worldRandom, 16);
-        mainLimit = new NoiseGeneratorOctaves(worldRandom, 8);
-        shoresBottomComposition = new NoiseGeneratorOctaves(worldRandom, 4);
-        surfaceElevation = new NoiseGeneratorOctaves(worldRandom, 4);
-        scale = new NoiseGeneratorOctaves(worldRandom, 10);
-        depth = new NoiseGeneratorOctaves(worldRandom, 16);
-        forest = new NoiseGeneratorOctaves(worldRandom, 8);
+        minLimit = new NoiseGeneratorOctavesBis(worldRandom, 16);
+        maxLimit = new NoiseGeneratorOctavesBis(worldRandom, 16);
+        mainLimit = new NoiseGeneratorOctavesBis(worldRandom, 8);
+        shoresBottomComposition = new NoiseGeneratorOctavesBis(worldRandom, 4);
+        surfaceElevation = new NoiseGeneratorOctavesBis(worldRandom, 4);
+        scale = new NoiseGeneratorOctavesBis(worldRandom, 10);
+        depth = new NoiseGeneratorOctavesBis(worldRandom, 16);
+        forest = new NoiseGeneratorOctavesBis(worldRandom, 8);
     }
 
     public byte[] provideChunk(int chunkX, int chunkZ, boolean fast, BiomeGeneration biomeGenerationInstance,BiomesBase[] biomesForGeneration) {
