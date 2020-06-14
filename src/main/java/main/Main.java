@@ -11,6 +11,8 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static main.BiomesBase.biomeLookupTables;
+
 public class Main implements Runnable {
     private String name;
     private int index;
@@ -21,9 +23,16 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
-        benchmark();
-        //new Main("defaultTest.txt",99 ).compare();
+        new Main("",1).printBiomes(150,15,16);
+        //benchmark();
+        //new Main("test.txt",99 ).run();
     }
+    // seeds/test.txt should output
+    //Seed 90389547180974 at x:99 z:-30
+    //Seed 171351315692858 at x:99 z:-30
+    //Seed 189587791856572 at x:99 z:-30
+    //Seed 66697851806768 at x:99 z:-30
+    //Seed 162899168234811 at x:99 z:-30
 
     public static void benchmark(){
         Random random = new Random();
@@ -127,20 +136,22 @@ public class Main implements Runnable {
             }
             GenerateChunkBis generateChunk = new GenerateChunkBis(seed);
             byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ, biomeGenerationInstance, biomesForGeneration);
-            boolean flag = true;
-            for (int z = 0; z < mapWat.length; z++) {
-                int pos = 128 * ind * 16 + 128 * (z + OFFSET);
-                int y;
-                for (y = 127; y >= 0 && chunk[pos + y] == 0; y--) ;
-                System.out.println(y+1);
-                if ((y + 1) != mapWat[z]) {
-                    flag = false;
-                    break;
+            for (int x = 0; x < 16; x++) {
+                boolean flag = true;
+                for (int z = 0; z < mapWat.length; z++) {
+                    int pos = 128 * x * 16 + 128 * (z + OFFSET);
+                    int y;
+                    for (y = 80; y >= 70 && chunk[pos + y] == 0; y--) ;
+                    if ((y + 1) != mapWat[z]) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    System.out.println("Seed " + seed + " at x:" + (chunkX*16+x) + " z:-30");
                 }
             }
-            if (flag) {
-                System.out.println("Seed " + seed + " at x:" + index + " z:-30");
-            }
+
 
         }
         System.out.println("Finished on thread " + id + " at " + (System.nanoTime() - time) / 1e9);
@@ -215,7 +226,13 @@ public class Main implements Runnable {
         return res;
     }
 
-
+    public void printBiomes(long seed,int chunkX, int chunkZ){
+        BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
+        BiomesBase[] biomesForGeneration = biomeGenerationInstance.loadBiomes(null, chunkX * 16, chunkZ * 16, 16, 16);
+        for (BiomesBase biomesBase : biomesForGeneration) {
+            System.out.print(biomesBase.name + " ");
+        }
+    }
     public void compare() {
         int chunkX = 0;
         int chunkZ = -3;

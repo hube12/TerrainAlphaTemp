@@ -85,7 +85,7 @@ public class BiomesBase {
     public static final BiomesBase IceDesert = (new BiomesBase()).setColor(0xffed93).setName("Ice Desert").setGrassColor(0xc4d339);
     public static final BiomesBase Tundra = (new BiomesBase()).setColor(0x57ebf9).setName("Tundra").setGrassColor(0xc4d339);
 
-    private static final BiomesBase[] biomeLookupTables = new BiomesBase[4096];
+    public static final BiomesBase[] biomeLookupTables = new BiomesBase[4096];
 
     static {
         for (int i = 0; i < 64; i++) {

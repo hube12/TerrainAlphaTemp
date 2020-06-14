@@ -234,7 +234,15 @@ public class GenerateChunkBis {
         heightField = surfaceElevation.generateNoise(heightField, i * 16, j * 16, 0.0D, 16, 16, 1, noiseFactor * 2D, noiseFactor * 2D, noiseFactor * 2D);
 
         for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
+            for (int k = 0; k < 12; k++) {
+                worldRandom.nextDouble();
+                worldRandom.nextDouble();
+                worldRandom.nextDouble();
+                for (int w = 0; w < 128; w++) {
+                    worldRandom.nextInt(5);
+                }
+            }
+            for (int z = 12; z < 16; z++) {
                 BiomesBase biome = biomes[x * 16 + z];
                 boolean sandy = sandFields[x + z * 16] + worldRandom.nextDouble() * 0.20000000000000001D > 0.0D;
                 boolean gravelly = gravelField[x + z * 16] + worldRandom.nextDouble() * 0.20000000000000001D > 3D;
