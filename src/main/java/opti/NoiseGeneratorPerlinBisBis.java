@@ -55,19 +55,17 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
             case 0x8:
                 return y + z;
             case 0x9:
+            case 0xD:
                 return -y + z;
             case 0xA:
                 return y - z;
             case 0xB:
+            case 0xF:
                 return -y - z;
             case 0xC:
                 return y + x;
-            case 0xD:
-                return -y + z;
             case 0xE:
                 return y - x;
-            case 0xF:
-                return -y - z;
             default:
                 return 0; // never happens
         }

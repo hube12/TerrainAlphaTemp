@@ -5,7 +5,7 @@ import main.Random;
 
 public class NoiseGeneratorPerlinBis extends NoiseGenerator {
 
-    private final int[] permutations;
+    public final int[] permutations;
     public double xCoord_03;
     public double yCoord_03;
     public double zCoord_03;
@@ -109,7 +109,8 @@ public class NoiseGeneratorPerlinBis extends NoiseGenerator {
                     double x1 = lerp(fadeX, grad2D(permutations[hashXZ], xCoord, zCoord), grad2D(permutations[hashOffXZ], xCoord - 1.0D, zCoord));
                     double x2 = lerp(fadeX, grad2D(permutations[hashXZ + 1], xCoord, zCoord - 1.0D), grad2D(permutations[hashOffXZ + 1], xCoord - 1.0D, zCoord - 1.0D));
                     double y1 = lerp(fadeZ, x1, x2);
-                    buffer[index++] += y1 * octaveWidth;
+                    buffer[index] += y1 * octaveWidth;
+                    index++;
                 }
             }
             return;

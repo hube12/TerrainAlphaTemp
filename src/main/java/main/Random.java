@@ -24,6 +24,7 @@ public class Random {
 
     protected int next(int bits) {
         this.seed = (this.seed * multiplier + addend) & mask;
+
         return (int) (this.seed >>> (48 - bits));
     }
 
@@ -46,5 +47,9 @@ public class Random {
 
     public double nextDouble() {
         return (((long) (next(26)) << 27) + next(27)) * DOUBLE_UNIT;
+    }
+    public long nextLong() {
+        // it's okay that the bottom word remains signed.
+        return ((long)(next(32)) << 32) + next(32);
     }
 }

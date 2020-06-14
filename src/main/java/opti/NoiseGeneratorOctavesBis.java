@@ -6,8 +6,8 @@ import main.Random;
 import java.util.Arrays;
 
 public class NoiseGeneratorOctavesBis extends NoiseGenerator {
-    private final NoiseGeneratorPerlinBis[] noiseArray;
-    private final int octaves;
+    public final NoiseGeneratorPerlinBis[] noiseArray;
+    public final int octaves;
 
     public NoiseGeneratorOctavesBis(Random random, int nbOctaves) {
         octaves = nbOctaves;

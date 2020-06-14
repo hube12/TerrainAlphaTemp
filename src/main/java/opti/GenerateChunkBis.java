@@ -62,7 +62,7 @@ public class GenerateChunkBis {
         // this.biomesForGeneration=this.biomeGenerationInstance.loadBiomes(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
         this.biomeGenerationInstance = biomeGenerationInstance;
         double[] temperatures = this.biomeGenerationInstance.temperature;
-        generateTerrain(chunkX, chunkZ, chunkCache, temperatures);
+        generateTerrain(chunkX, chunkZ, chunkCache);
         replaceBlockForBiomes(chunkX, chunkZ, chunkCache, biomesForGeneration);
         return chunkCache;
     }
@@ -157,7 +157,7 @@ public class GenerateChunkBis {
         return NoiseColumn;
     }
 
-    public void generateTerrain(int chunkX, int chunkZ, byte[] chunkCache, double[] temperatures) {
+    public void generateTerrain(int chunkX, int chunkZ, byte[] chunkCache) {
         byte quadrant = 4;
         byte columnSize = 17;
         int cellsize = 5;
