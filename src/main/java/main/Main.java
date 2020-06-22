@@ -11,8 +11,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static main.BiomesBase.biomeLookupTables;
-
 public class Main implements Runnable {
     private String name;
     private int index;
@@ -23,7 +21,10 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
-        new Main("",1).printBiomes(150,15,16);
+        new Main("pano.txt",1).pano();
+
+
+        //
         //benchmark();
         //new Main("test.txt",99 ).run();
     }
@@ -34,14 +35,15 @@ public class Main implements Runnable {
     //Seed 66697851806768 at x:99 z:-30
     //Seed 162899168234811 at x:99 z:-30
 
-    public static void benchmark(){
+    public static void benchmark() {
         Random random = new Random();
         for (int i = 0; i < 256; i++) {
-            long seed=random.nextLong();
+            long seed = random.nextLong();
             testEquality(seed);
             evaluateSpeed(seed);
         }
     }
+
     public static void evaluateSpeed(long seed) {
         Main main = new Main("test.txt", -1);
         long time1 = 0;
@@ -77,7 +79,7 @@ public class Main implements Runnable {
             }
         }
         time1 += System.nanoTime() - counter;
-        System.out.println("Time 1 : " + time1 / 1e9D + " time 2: " + time2 / 1e9D + " difference: " + (float)Math.abs(time2 - time1) / time1*100+" %");
+        System.out.println("Time 1 : " + time1 / 1e9D + " time 2: " + time2 / 1e9D + " difference: " + (float) Math.abs(time2 - time1) / time1 * 100 + " %");
     }
 
     public static void testEquality(long seed) {
@@ -87,12 +89,66 @@ public class Main implements Runnable {
                 List<Integer> res1 = main.original(seed, x, z);
                 List<Integer> res2 = main.newOne(seed, x, z);
                 for (int i = 0; i < res1.size(); i++) {
-                    if (!res1.get(i).equals(res2.get(i)) && res1.get(i)>=73 && res1.get(i)<=79) {
+                    if (!res1.get(i).equals(res2.get(i)) && res1.get(i) >= 73 && res1.get(i) <= 79) {
                         System.out.printf("Different for x:%d z:%d at index %d with original value %d and new value %d\n", x, z, i, res1.get(i), res2.get(i));
                     }
                 }
             }
         }
+    }
+
+    public void pano() {
+        //int[] mapWat = {74, 74, 73, 72};int z = 10; // from x 12 to x15 in chunk at z10
+       //int[] mapWat = {74, 74, 72, 71};int z = 11; // from x 12 to x15 in chunk at z11
+        int[] mapWat = {74, 73, 72, 70};int z = 12; // from x 12 to x15 in chunk at z12
+
+
+        List<Long> worldSeeds = null;
+        long id = Thread.currentThread().getId();
+        try {
+            URI path = Objects.requireNonNull(Main.class.getClassLoader().getResource("seeds/" + name)).toURI();
+            System.out.println(path + " " + id + " " + index);
+            worldSeeds = Files.lines(Paths.get(path)).map(Long::valueOf).collect(Collectors.toList());
+            System.out.println(worldSeeds.size() + " " + id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long time = System.nanoTime();
+        int chunkX = 3;
+        int chunkZ = -5;
+        BiomesBase[] biomesForGeneration = new BiomesBase[256];
+        long cur = 0;
+
+        long tot = worldSeeds.size();
+        for (long seed : worldSeeds) {
+            cur++;
+            if ((cur % 10000) == 0) {
+                System.out.printf("Time %f at %d %f%% on %d\n", (System.nanoTime() - time) / 1e9, cur, (double) cur / tot * 100, id);
+            }
+            BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
+            biomeGenerationInstance.loadBiomes(biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+
+            GenerateChunk generateChunk = new GenerateChunk(seed);
+            byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ,false, biomeGenerationInstance, biomesForGeneration);
+
+            boolean flag = true;
+            for (int x = 12; x < 16; x++) {
+                int pos = 128 * x * 16 + 128 * z;
+                int y;
+                for (y = 80; y >= 70 && chunk[pos + y] == 0; y--) ;
+
+                //System.out.println("x:"+x+" y"+y+" z:"+z+" pos:"+pos);
+                if ((y + 1) != mapWat[x-12]) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) System.out.println("Seed " + seed + " at x: 61 z:-69");
+
+
+        }
+        System.out.println("Finished on thread " + id + " at " + (System.nanoTime() - time) / 1e9);
+
     }
 
     public void run() {
@@ -148,13 +204,25 @@ public class Main implements Runnable {
                     }
                 }
                 if (flag) {
-                    System.out.println("Seed " + seed + " at x:" + (chunkX*16+x) + " z:-30");
+                    System.out.println("Seed " + seed + " at x:" + (chunkX * 16 + x) + " z:-30");
                 }
             }
 
 
         }
         System.out.println("Finished on thread " + id + " at " + (System.nanoTime() - time) / 1e9);
+    }
+
+    public static void biomeTest() {
+        int chunkX = 6;
+        int chunkZ = -3;
+        long seed = 51515155L;
+        BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
+        BiomesBase[] biomesForGeneration = biomeGenerationInstance.loadBiomes(null, chunkX * 16, chunkZ * 16, 16, 16);
+        for (BiomesBase biomesBase : biomesForGeneration) {
+            System.out.print(biomesBase.name + " ");
+        }
+        System.out.println();
     }
 
     public void debug() {
@@ -226,13 +294,14 @@ public class Main implements Runnable {
         return res;
     }
 
-    public void printBiomes(long seed,int chunkX, int chunkZ){
+    public void printBiomes(long seed, int chunkX, int chunkZ) {
         BiomeGeneration biomeGenerationInstance = new BiomeGeneration(seed);
         BiomesBase[] biomesForGeneration = biomeGenerationInstance.loadBiomes(null, chunkX * 16, chunkZ * 16, 16, 16);
         for (BiomesBase biomesBase : biomesForGeneration) {
             System.out.print(biomesBase.name + " ");
         }
     }
+
     public void compare() {
         int chunkX = 0;
         int chunkZ = -3;
