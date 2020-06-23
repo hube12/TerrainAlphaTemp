@@ -21,7 +21,7 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
-        new Main("pano.txt",1).pano();
+        new Main("pano4",1).pano();
 
 
         //
@@ -98,9 +98,10 @@ public class Main implements Runnable {
     }
 
     public void pano() {
-        //int[] mapWat = {74, 74, 73, 72};int z = 10; // from x 12 to x15 in chunk at z10
-       //int[] mapWat = {74, 74, 72, 71};int z = 11; // from x 12 to x15 in chunk at z11
-        int[] mapWat = {74, 73, 72, 70};int z = 12; // from x 12 to x15 in chunk at z12
+        //int[] mapWat = {74, 74, 74};int z = 9; // from x 12 to x14 in chunk at z9
+        int[] mapWat = {74, 74, 73};int z = 10; // from x 12 to x14 in chunk at z10
+        //int[] mapWat = {74, 74, 72};int z = 11; // from x 12 to x14 in chunk at z11
+        //int[] mapWat = {74, 73, 72};int z = 12; // from x 12 to x14 in chunk at z12
 
 
         List<Long> worldSeeds = null;
@@ -132,13 +133,13 @@ public class Main implements Runnable {
             byte[] chunk = generateChunk.provideChunk(chunkX, chunkZ,false, biomeGenerationInstance, biomesForGeneration);
 
             boolean flag = true;
-            for (int x = 12; x < 16; x++) {
+            for (int x = 12; x < 15; x++) {
                 int pos = 128 * x * 16 + 128 * z;
                 int y;
                 for (y = 80; y >= 70 && chunk[pos + y] == 0; y--) ;
 
                 //System.out.println("x:"+x+" y"+y+" z:"+z+" pos:"+pos);
-                if ((y + 1) != mapWat[x-12]) {
+                if ((y+1 ) != mapWat[x-12]) {
                     flag = false;
                     break;
                 }

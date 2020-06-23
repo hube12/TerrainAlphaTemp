@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Arrays;
+
 public class BiomeGeneration {
 
     public double[] temperature;
@@ -48,6 +50,7 @@ public class BiomeGeneration {
                 index++;
             }
         }
+        //System.out.println(Arrays.toString(temperature));
         return biomes;
     }
 }

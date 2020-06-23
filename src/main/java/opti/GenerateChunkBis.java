@@ -4,6 +4,8 @@ import main.BiomeGeneration;
 import main.BiomesBase;
 import main.Random;
 
+import java.util.Arrays;
+
 public class GenerateChunkBis {
     private final Random worldRandom;
     private BiomesBase[] biomesForGeneration;
@@ -166,6 +168,7 @@ public class GenerateChunkBis {
         double interpThirdOctave = 0.25D;
         // we only need 315 332 400 417 316 333 401 and 418
         NoiseColumn = fillNoiseColumn(NoiseColumn, chunkX * quadrant, chunkZ * quadrant);
+        //System.out.println(Arrays.toString(NoiseColumn));
         for (int x = 0; x < quadrant; x++) {
             int z = 3;
             for (int height = 9; height < 10; height++) {

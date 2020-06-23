@@ -38,6 +38,7 @@ public class SimplexNoise {
             double Xcoords = (chunkX + (double) X) * offsetX + xo;
             for (int Z = 0; Z < z; Z++) {
                 double Zcoords = (chunkZ + (double) Z) * offsetZ + yo;
+                //if (X==15 && Z==15) System.out.println(Xcoords+" "+Zcoords+" "+(chunkZ + (double) Z)+" "+offsetX+" "+offsetZ+" "+xo+" "+yo);
                 // Skew the input space to determine which simplex cell we're in
                 double hairyFactor = (Xcoords + Zcoords) * F2;
                 int xHairy = fastFloor(Xcoords + hairyFactor);
@@ -99,6 +100,7 @@ public class SimplexNoise {
                 // Add contributions from each corner to get the final noise value.
                 // The result is scaled to return values in the interval [-1,1].
                 cache[k++] += 70D * (n0 + n1 + n2) * octaveFactor;
+                //if (X==15 && Z==15) System.out.println(cache[k-1]);
             }
 
         }

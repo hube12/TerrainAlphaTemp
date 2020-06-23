@@ -2,6 +2,8 @@ package opti;
 import main.NoiseGenerator;
 import main.Random;
 
+import java.util.Arrays;
+
 
 public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
 
@@ -27,7 +29,7 @@ public class NoiseGeneratorPerlinBisBis extends NoiseGenerator {
             // copy unnecessary
             permutations[index + 256] = permutations[index];
         }
-
+       // System.out.println(Arrays.toString(permutations));
     }
 
     public final double lerp(double x, double a, double b) {

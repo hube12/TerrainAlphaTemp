@@ -30,6 +30,7 @@ public class SimplexNoiseOctaves extends NoiseGenerator {
         double octaveAmplification = 1.0D;
         for (int l = 0; l < nbOctaves; l++) {
             noise[l].noise(cache, chunkX, chunkZ, x, z, offsetX * octaveAmplification, offsetZ * octaveAmplification, 0.55000000000000004D / octaveDiminution);
+           // System.out.println(Arrays.toString(cache));
             octaveAmplification *= ampFactor;
             octaveDiminution *= octaveFactor;
         }
