@@ -19,10 +19,13 @@ public class Main implements Runnable {
         this.name = name;
         this.index = index;
     }
+    public Main(){
+
+    }
 
     public static void main(String[] args) {
-        new Main("pano.txt",1).pano();
-
+        Main main=new Main();
+        System.out.println(main.original(1755275 ,8 ,-2));
 
         //
         //benchmark();
