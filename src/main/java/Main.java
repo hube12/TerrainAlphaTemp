@@ -20,7 +20,10 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
-        boolean debug = false;
+        if (args.length!=1){
+            System.out.println("java -jar terrain-all.jar <numberofThread>");
+            return;
+        }
         int threads= Integer.parseInt(args[0]);
         ArrayList<List<Object>> files = new ArrayList<>();
         for (int i = 0; i < threads; i++) {
@@ -45,6 +48,10 @@ public class Main implements Runnable {
             File jarPath=new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
             String directPath=jarPath.getParentFile().getAbsolutePath();
             System.out.println(directPath+File.separator+name+" "+id);
+            if (!(new File(directPath+File.separator+name)).exists()){
+                System.out.println("Missing "+name+" for thread "+id);
+                return;
+            }
             worldSeeds = Files.lines(Paths.get(directPath+File.separator+name)).map(Long::valueOf).collect(Collectors.toList());
             System.out.println(worldSeeds.size()+ " "+id );
         } catch (Exception e) {
