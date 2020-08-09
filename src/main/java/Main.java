@@ -26,8 +26,12 @@ public class Main implements Runnable {
         }
         int threads= Integer.parseInt(args[0]);
         ArrayList<List<Object>> files = new ArrayList<>();
+        String pad="%02d";
+        if (threads>100){
+            pad="%03d";
+        }
         for (int i = 0; i < threads; i++) {
-            files.add(Arrays.asList(i+".txt",128));
+            files.add(Arrays.asList(String.format(pad, i),128));
         }
        //128 -33
         // 76 77
