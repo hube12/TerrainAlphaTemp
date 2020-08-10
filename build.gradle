@@ -22,7 +22,7 @@ tasks.withType(JavaExec) {
 }
 
 application {
-    mainClassName = "Main"
+    mainClassName = "main.Main"
 }
 
 jar {
